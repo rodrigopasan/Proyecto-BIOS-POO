@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "POO Consulta Medica", "POO Consulta Medica\POO Consulta Medica.csproj", "{59D7B1BF-02F5-4C3C-BFB7-98C8D3B28DD0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{59D7B1BF-02F5-4C3C-BFB7-98C8D3B28DD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59D7B1BF-02F5-4C3C-BFB7-98C8D3B28DD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59D7B1BF-02F5-4C3C-BFB7-98C8D3B28DD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59D7B1BF-02F5-4C3C-BFB7-98C8D3B28DD0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

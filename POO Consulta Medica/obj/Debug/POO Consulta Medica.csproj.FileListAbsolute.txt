@@ -1,0 +1,6 @@
+C:\Users\family\Desktop\Bios\POO Consulta Medica\POO Consulta Medica\bin\Debug\POO Consulta Medica.exe.config
+C:\Users\family\Desktop\Bios\POO Consulta Medica\POO Consulta Medica\bin\Debug\POO Consulta Medica.exe
+C:\Users\family\Desktop\Bios\POO Consulta Medica\POO Consulta Medica\bin\Debug\POO Consulta Medica.pdb
+C:\Users\family\Desktop\Bios\POO Consulta Medica\POO Consulta Medica\obj\Debug\POO Consulta Medica.csprojResolveAssemblyReference.cache
+C:\Users\family\Desktop\Bios\POO Consulta Medica\POO Consulta Medica\obj\Debug\POO Consulta Medica.exe
+C:\Users\family\Desktop\Bios\POO Consulta Medica\POO Consulta Medica\obj\Debug\POO Consulta Medica.pdb
