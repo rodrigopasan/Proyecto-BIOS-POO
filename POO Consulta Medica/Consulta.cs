@@ -83,8 +83,8 @@ namespace POO_Consulta_Medica
 
 
 
-            //constru123
 
+            //constru3452
             public Consulta(int _NumConsultorio, DateTime _FechaHora, string _NombreMedico, int _NumInterno, int _CantidadNumeros)
             {
                 NumeroConsultorio = _NumConsultorio;
