@@ -48,6 +48,14 @@ namespace POO_Consulta_Medica
                 _NumCedUsados.Add(_NumeroCedula);
             }
         }
+        //Constructor Completo
+        public Paciente(string pNombrePaciente, string pApellidoPaciente, DateTime pFechaNacimiento, int pNumeroCedula)
+        {
+            NombrePaciente = pNombrePaciente;
+            ApellidoPaciente = pApellidoPaciente;
+            FechaNacimiento = pFechaNacimiento;
+            NumeroCedula = pNumeroCedula;
+        }
 
         public override string ToString()
         {
