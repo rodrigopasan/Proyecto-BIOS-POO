@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{59D7B1BF-02F5-4C3C-BFB7-98C8D3B28DD0}</ProjectGuid>
+    <ProjectGuid>{EAF2FFDB-AAF7-434B-AEC1-07CC69C925B8}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>POO_Consulta_Medica</RootNamespace>
@@ -43,6 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Comun.cs" />
+    <Compile Include="Consulta.cs" />
+    <Compile Include="Especialista.cs" />
+    <Compile Include="LogicaConsulta.cs" />
+    <Compile Include="Logica.cs" />
     <Compile Include="Paciente.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
