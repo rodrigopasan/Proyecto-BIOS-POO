@@ -111,16 +111,16 @@ namespace POO_Consulta_Medica
             return true;
         }
 
-        public bool AltaConsultaEspecial(Consulta unaConsultaEspecial)
+        public bool AltaConsultaEspecialista(Consulta unaConsultaEspecialista)
         {
-            Consulta _buscoConsultorio = BuscarConsultorio(unaConsultaEspecial.NumeroConsultorio);
+            Consulta _buscoConsultorio = BuscarConsultorio(unaConsultaEspecialista.NumeroConsultorio);
             if (_buscoConsultorio != null)
                 throw new Exception("El numero de consultorio ya esta en uso");
             else
             {
                 if (_Tope < _listaConsulta.Length)
                 {
-                    _listaConsulta[_Tope] = unaConsultaEspecial;
+                    _listaConsulta[_Tope] = unaConsultaEspecialista;
                     _Tope++;
                 }
                 else
@@ -128,6 +128,13 @@ namespace POO_Consulta_Medica
             }
             return true;
         }
-
+        //obtener una consulta en una posicion x en mi repositorio
+        public Consulta Item(int pos)
+        {
+            if (pos >= 0 && pos < _Tope)
+                return _listaConsulta[pos];
+            else
+                throw new Exception("Indice de Conjunto Invalido");
+        }
     }
 }

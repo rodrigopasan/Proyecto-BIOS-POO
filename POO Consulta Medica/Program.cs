@@ -27,15 +27,14 @@ namespace POO_Consulta_Medica
                 Console.Write("Ingrese la cantidad de numeros: ");
                 int cantidadnumeros = Convert.ToInt32(Console.ReadLine().Trim());
 
-                int numerointerno = Convert.ToInt32(Console.ReadLine().Trim());
-
                 Console.Write("Tiene asistencia? :");
                 bool asistencia = Convert.ToBoolean(Console.ReadLine().Trim());
 
-                Console.Write("Tiene enfermera?");
+                Console.Write("Tiene enfermera?: ");
                 bool tieneenfermera = Convert.ToBoolean(Console.ReadLine().Trim());
 
-                Comun unaC = new Comun(numeroconsultorio, fecha, nombremedico, cantidadnumeros, numerointerno, asistencia, tieneenfermera);
+                Comun unaC = new Comun(numeroconsultorio, fecha, nombremedico, cantidadnumeros,  asistencia, tieneenfermera);
+                //Comun unaC = new Comun(numeroconsultorio, fecha, nombremedico, cantidadnumeros, numerointerno, asistencia, tieneenfermera);
                 if (trabajo.AltaConsultaComun(unaC))
                     Console.WriteLine("Alta con exito");
                 else
@@ -48,6 +47,67 @@ namespace POO_Consulta_Medica
                 Console.ReadLine();
             }
         }
+
+        private static void AltaConsultaEspecialista(Logica trabajo)
+        {
+            Console.Clear();
+            Console.WriteLine("---- Ingrese una nueva consulta comun");
+            try
+            {
+                //peticion de los datos
+                Console.Write("Ingrese numero de consultorio del 1 al 40: ");
+                int numeroconsultorio = Convert.ToInt32(Console.ReadLine().Trim());
+
+                Console.Write("Ingrese la fecha de consulta (dd/mm/aaaa): ");
+                DateTime fecha = Convert.ToDateTime(Console.ReadLine());
+
+                Console.Write("Ingrese el medico: ");
+                string nombremedico = Console.ReadLine().Trim();
+
+                Console.Write("Ingrese la cantidad de numeros: ");
+                int cantidadnumeros = Convert.ToInt32(Console.ReadLine().Trim());
+
+                Console.Write("Tiene asistencia? :");
+                bool asistencia = Convert.ToBoolean(Console.ReadLine().Trim());
+
+                Console.Write("Especialidad: ");
+                string especialidad = Console.ReadLine().Trim();
+
+                Especialista unE = new Especialista(numeroconsultorio, fecha, nombremedico, cantidadnumeros, asistencia, especialidad);
+                if(trabajo.AltaConsultaEspecialista(unE))
+                    Console.WriteLine("Alta con exito");
+                else
+                    Console.WriteLine("No se genero el alta de la consulta especialista");
+                Console.ReadLine();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.ReadLine();
+            }
+        }
+
+        private static void ListadoConsulta(Logica trabajo)
+        {
+            try
+            {
+                Console.Clear();
+                Console.WriteLine("------------Listado completo de todas las consultas-----------------");
+                //tope me indica la cantidad de consultas que hay en el repositorio
+                for (int i = 0; i < trabajo.Tope; i++)
+                {
+                    //llamo la logica item
+                    Console.WriteLine(trabajo.Item(i).ToString());
+                }
+                Console.ReadLine();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.ReadLine();
+            }
+        }//fin listado
+
         static void Menu(Logica trabajo)
         {
             int opcion = 0;
@@ -57,7 +117,7 @@ namespace POO_Consulta_Medica
                 Console.WriteLine("------------------Menu Principal-------------------");
                 Console.WriteLine("1 - Modificar Paciente");
                 Console.WriteLine("2 - Alta consulta comun");
-                Console.WriteLine("3 - Alta consulta especial");
+                Console.WriteLine("3 - Alta consulta especialista");
                 Console.WriteLine("4 - Agregar solicitud");
                 Console.WriteLine("5 - Marcar asistenca solicitud numero");
                 Console.WriteLine("6 - Listado socio de consulta");
@@ -87,7 +147,7 @@ namespace POO_Consulta_Medica
                     AltaConsultaComun(trabajo);
                     break;
                 case 3:
-                   // AltaConsultaEspecial(trabajo);
+                    AltaConsultaEspecialista(trabajo);
                     break;
                 case 4:
                     //AgregarSolicitud(trabajo);
@@ -99,7 +159,7 @@ namespace POO_Consulta_Medica
                    // ListaSocioConsulta(trabajo);
                     break;
                 case 7:
-                    //ListadoConsulta(trabajo);
+                    ListadoConsulta(trabajo);
                     break;
                 default:
                     Console.WriteLine("Opcion invalida - 1 a 8");

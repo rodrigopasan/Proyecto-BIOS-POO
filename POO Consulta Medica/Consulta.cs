@@ -12,7 +12,7 @@ namespace POO_Consulta_Medica
         private int _NumeroConsultorio;
         private DateTime _FechaHora;
         private string _NombreMedico;
-        private int _NumeroInterno; //nose
+        private int _NumeroInterno; 
         private int _CantidadNumeros;
         private bool _Asistencia;
 
@@ -22,9 +22,9 @@ namespace POO_Consulta_Medica
             set
             {
                 if (value >= 1 && value <= 40)
-                    throw new Exception("El número de consultorio debe estar entre 1 y 40.");
+                    _NumeroConsultorio = value;
                 else
-                    _NumeroConsultorio = value;    
+                    throw new Exception("El número de consultorio debe estar entre 1 y 40.");
             }
             get { return _NumeroConsultorio; }
         }
@@ -72,14 +72,12 @@ namespace POO_Consulta_Medica
 
             set
             {
-                for(int i = 0; i < 40; i++)
-                {
+                if (_NumeroInterno <= _NumeroConsultorio)
                     _NumeroInterno++;
-                        i++;
-                    
-                }
+                else
+                    throw  new Exception("Ya no hay mas numero internos");
             }
-            
+
         }
         public bool Asistencia
         {
@@ -88,7 +86,8 @@ namespace POO_Consulta_Medica
         }
 
         //Constructor Completo
-        public Consulta(int _NumeroConsultorio, DateTime _FechaHora, string _NombreMedico, int _CantidadNumeros, int _NumeroInterno, bool _Asistencia)
+        public Consulta(int _NumeroConsultorio, DateTime _FechaHora, string _NombreMedico, int _CantidadNumeros, bool _Asistencia)
+        //public Consulta(int _NumeroConsultorio, DateTime _FechaHora, string _NombreMedico, int _CantidadNumeros, int _NumeroInterno, bool _Asistencia)
         {
             NumeroConsultorio = _NumeroConsultorio;
             FechaHora = _FechaHora;
@@ -98,10 +97,18 @@ namespace POO_Consulta_Medica
             Asistencia = _Asistencia;
         }
 
+        public int Futuro()
+        {
+            TimeSpan _Diferencia = DateTime.Now.Subtract(_FechaHora);
+            int _DifEnHs = Convert.ToInt32(Math.Truncate(_Diferencia.Hours * 2.0));
+            return (_DifEnHs);
+        }
+
+
         public override string ToString()
         {
 
-            return ($"Consulta en consultorio: {_NumeroConsultorio } Fecha y hora: {_FechaHora } Médico: {_NombreMedico} Cantidad de números: {_CantidadNumeros} Asistencia {_Asistencia}");
+            return ($"Consulta en consultorio: {_NumeroConsultorio } Fecha y hora: {_FechaHora.ToShortDateString() } Médico: {_NombreMedico} Cantidad de números: {_CantidadNumeros} Asistencia {_Asistencia}");
         }
         
     }
