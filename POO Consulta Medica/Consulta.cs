@@ -88,7 +88,7 @@ namespace POO_Consulta_Medica
         }
 
         //Constructor Completo
-        public Consulta(int _NumeroConsultorio, DateTime _FechaHora, string _NombreMedico, int _CantidadNumeros, bool _Asistencia)
+        public Consulta(int _NumeroConsultorio, DateTime _FechaHora, string _NombreMedico, int _CantidadNumeros, int _NumeroInterno, bool _Asistencia)
         {
             NumeroConsultorio = _NumeroConsultorio;
             FechaHora = _FechaHora;
@@ -104,7 +104,6 @@ namespace POO_Consulta_Medica
             return ($"Consulta en consultorio: {_NumeroConsultorio } Fecha y hora: {_FechaHora } Médico: {_NombreMedico} Cantidad de números: {_CantidadNumeros} Asistencia {_Asistencia}");
         }
         
-        //Asociacion con paciente
-        private Paciente _SolicitudNumero;
+     
     }
 }

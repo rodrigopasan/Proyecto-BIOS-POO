@@ -7,3 +7,6 @@ C:\Users\aniba\OneDrive\Documentos\Analista de Sistema\POO Consulta Medica\POO C
 C:\Users\aniba\OneDrive\Documentos\Analista de Sistema\Git\Proyecto-BIOS-POO\POO Consulta Medica\bin\Debug\POO Consulta Medica.exe.config
 C:\Users\aniba\OneDrive\Documentos\Analista de Sistema\Git\Proyecto-BIOS-POO\POO Consulta Medica\obj\Debug\POO Consulta Medica.exe
 C:\Users\aniba\OneDrive\Documentos\Analista de Sistema\Git\Proyecto-BIOS-POO\POO Consulta Medica\obj\Debug\POO Consulta Medica.pdb
+C:\Users\aniba\OneDrive\Documentos\Analista de Sistema\Git\Proyecto-BIOS-POO\POO Consulta Medica\obj\Debug\POO Consulta Medica.csprojResolveAssemblyReference.cache
+C:\Users\aniba\OneDrive\Documentos\Analista de Sistema\Git\Proyecto-BIOS-POO\POO Consulta Medica\bin\Debug\POO Consulta Medica.exe
+C:\Users\aniba\OneDrive\Documentos\Analista de Sistema\Git\Proyecto-BIOS-POO\POO Consulta Medica\bin\Debug\POO Consulta Medica.pdb
