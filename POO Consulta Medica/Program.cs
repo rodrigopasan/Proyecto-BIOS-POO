@@ -94,10 +94,10 @@ namespace POO_Consulta_Medica
                 Console.Clear();
                 Console.WriteLine("------------Listado completo de todas las consultas-----------------");
                 //tope me indica la cantidad de consultas que hay en el repositorio
-                for (int i = 0; i < trabajo.Tope; i++)
+                for (int i = 0; i < trabajo.NumeroConsultorio; i++)
                 {
                     //llamo la logica item
-                    Console.WriteLine(trabajo.Item(i).ToString());
+                    Console.WriteLine(trabajo.Item(i));
                 }
                 Console.ReadLine();
             }

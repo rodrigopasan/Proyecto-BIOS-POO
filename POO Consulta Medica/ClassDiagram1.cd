@@ -21,24 +21,24 @@
       <FileName>Especialista.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="POO_Consulta_Medica.Logica">
-    <Position X="4.25" Y="0.5" Width="1.5" />
+  <Class Name="POO_Consulta_Medica.Logica" Collapsed="true">
+    <Position X="4.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>IAgAAEAAIBAAAAAAAQAAAADBAAIAAAAAQAAAAAAgBAA=</HashCode>
+      <HashCode>IAgAAEAAIBAAAAAAAQAAAADFAAIAAAAAQAAAAAAgBAA=</HashCode>
       <FileName>Logica.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="POO_Consulta_Medica.Paciente">
+  <Class Name="POO_Consulta_Medica.Paciente" Collapsed="true">
     <Position X="8" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EAgAAAAAAAAAIACEAAAAAACAAAAAABBAAAAAgAAAABA=</HashCode>
       <FileName>Paciente.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="POO_Consulta_Medica.Program">
-    <Position X="6" Y="0.75" Width="1.5" />
+  <Class Name="POO_Consulta_Medica.Program" Collapsed="true">
+    <Position X="6" Y="2.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAIAAAAAAAAABAAAAIAAAAAAAABAAgAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAIAAAAAAAAABAAAAIAAAAAAAAJAAgAAA=</HashCode>
       <FileName>Program.cs</FileName>
     </TypeIdentifier>
   </Class>
