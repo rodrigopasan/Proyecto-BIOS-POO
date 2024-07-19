@@ -28,6 +28,19 @@ namespace POO_Consulta_Medica
             _listaConsulta = new List<Consulta>();   
         }
 
+        public bool AltaPaciente(Paciente unPaciente)
+        {
+            Paciente _busco = BuscarPaciente(unPaciente.NumeroCedula);
+
+            if (_busco != null)
+                throw new Exception("Ya existe un paciente con ese numero de cedula");
+            else
+            {
+                _lista.Add(unPaciente);
+            }
+            return true;
+        }
+
         public Paciente BuscarPaciente(int pNumeroCedula)
         {
             foreach (Paciente P in _lista)
@@ -37,17 +50,6 @@ namespace POO_Consulta_Medica
                         return P;
             }//fin foreach
             return null;
-        }
-        public bool AltaPaciente(Paciente unPaciente)
-        {
-            Paciente _busco = BuscarPaciente(unPaciente.NumeroCedula);
-            if (_busco != null)
-                throw new Exception("Ya existe un paciente con ese numero de cedula");
-            else
-            {
-                _lista.Add(unPaciente);
-            }
-            return true;
         }
 
         public bool EliminarPaciente(Paciente unPaciente)
