@@ -77,13 +77,44 @@ namespace POO_Consulta_Medica
                 if(trabajo.AltaConsultaEspecialista(unE))
                     Console.WriteLine("Alta con exito");
                 else
-                    Console.WriteLine("No se genero el alta de la consulta especialista");
-                Console.ReadLine();
+                    Console.WriteLine("No se genero el alta de la consulta especialista: ");
+                    Console.ReadLine();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 Console.ReadLine();
+            }
+        }
+
+        private static void ModificarPaciente(Logica trabajo)
+        {
+            Console.Clear();
+            Console.WriteLine("---- Ingrese una nueva consulta comun");
+            try
+            {
+                Console.Write("Ingrese el numero de documento del paciente sin punto ni guiones: ");
+                int numerodocumento = Convert.ToInt32(Console.ReadLine().Trim());
+
+                Console.Write("Ingrese el nombre del paciente: ");
+                string nombrepaciente = Console.ReadLine().Trim();
+
+                Console.Write("Ingrese el apellido del paciente: ");
+                string apellidopaciente = Console.ReadLine().Trim();
+
+                Console.Write("Ingrese la fecha de nacimiento del paciente (dd/mm/aaaa): ");
+                DateTime fechanacimiento = Convert.ToDateTime(Console.ReadLine());
+
+                Paciente unP = new Paciente(nombrepaciente, apellidopaciente, fechanacimiento, numerodocumento);
+                if (trabajo.ModificarPaciente(unP))
+                    Console.WriteLine("Alta con exito");
+                else
+                    Console.WriteLine("No se genero el alta en paciente: ");
+                    Console.ReadLine();
+            }
+            catch
+            {
+
             }
         }
 
@@ -141,7 +172,7 @@ namespace POO_Consulta_Medica
             switch (opcion)
             {
                 case 1:
-                    //ModfcaPaciente(trabajo);
+                    ModificarPaciente(trabajo);
                     break;
                 case 2:
                     AltaConsultaComun(trabajo);
