@@ -8,9 +8,7 @@ namespace POO_Consulta_Medica
 {
     class Logica
     {
-        //private int _Tope;
-       // private Paciente[] _lista;
-      //  private Consulta[] _listaConsulta;
+
         private List<Paciente> _lista;
         private List<Consulta> _listaConsulta;
 

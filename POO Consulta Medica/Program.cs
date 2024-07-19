@@ -87,7 +87,7 @@ namespace POO_Consulta_Medica
             }
         }
 
-        private static void ModificarPaciente(Logica trabajo)
+        private static void AltaPaciente(Logica trabajo)
         {
             Console.Clear();
             Console.WriteLine("---- Ingrese una nueva consulta comun");
@@ -106,15 +106,16 @@ namespace POO_Consulta_Medica
                 DateTime fechanacimiento = Convert.ToDateTime(Console.ReadLine());
 
                 Paciente unP = new Paciente(nombrepaciente, apellidopaciente, fechanacimiento, numerodocumento);
-                if (trabajo.ModificarPaciente(unP))
+                if (trabajo.AltaPaciente(unP))
                     Console.WriteLine("Alta con exito");
                 else
                     Console.WriteLine("No se genero el alta en paciente: ");
                     Console.ReadLine();
             }
-            catch
+            catch (Exception ex)
             {
-
+                Console.WriteLine(ex.Message);
+                Console.ReadLine();
             }
         }
 
@@ -142,18 +143,19 @@ namespace POO_Consulta_Medica
         static void Menu(Logica trabajo)
         {
             int opcion = 0;
-            while (opcion != 9)
+            while (opcion != 10)
             {
                 Console.Clear();
                 Console.WriteLine("------------------Menu Principal-------------------");
-                Console.WriteLine("1 - Modificar Paciente");
-                Console.WriteLine("2 - Alta consulta comun");
-                Console.WriteLine("3 - Alta consulta especialista");
-                Console.WriteLine("4 - Agregar solicitud");
-                Console.WriteLine("5 - Marcar asistenca solicitud numero");
-                Console.WriteLine("6 - Listado socio de consulta");
-                Console.WriteLine("7 - Listado consulta");
-                Console.WriteLine("8 - Salir");
+                Console.WriteLine("1 - Mantenimiento Pacientes");
+                Console.WriteLine("2 - Alta Consulta Común");
+                Console.WriteLine("3 - Alta Consulta Especialista");
+                Console.WriteLine("4 - Agregar Solicitud");
+                Console.WriteLine("5 - Marcar Asistenca Solicitud Número");
+                Console.WriteLine("6 - Listado Socio de Consulta");
+                Console.WriteLine("7 - Listado Consulta");
+                Console.WriteLine("8 - Listado Solicitudes de Consulta Paciente");
+                Console.WriteLine("9 - Salir");
                 Console.Write("Ingrese su opcion: ");
                 try
                 {
@@ -172,7 +174,7 @@ namespace POO_Consulta_Medica
             switch (opcion)
             {
                 case 1:
-                    ModificarPaciente(trabajo);
+                    AltaPaciente(trabajo);
                     break;
                 case 2:
                     AltaConsultaComun(trabajo);
@@ -191,6 +193,9 @@ namespace POO_Consulta_Medica
                     break;
                 case 7:
                     ListadoConsulta(trabajo);
+                    break;
+                case 8:
+                    //Listado solicitudes de consulta paciente(trabajo);
                     break;
                 default:
                     Console.WriteLine("Opcion invalida - 1 a 8");
