@@ -46,7 +46,6 @@
     <Compile Include="Comun.cs" />
     <Compile Include="Consulta.cs" />
     <Compile Include="Especialista.cs" />
-    <Compile Include="LogicaConsulta.cs" />
     <Compile Include="Logica.cs" />
     <Compile Include="Paciente.cs" />
     <Compile Include="Program.cs" />

@@ -17,10 +17,10 @@ namespace POO_Consulta_Medica
         }
 
         // Constructor
-        public Especialista(int _NumeroConsultorio, DateTime _FechaHora, string _NombreMedico, int _CantidadNumeros, bool _Asistencia, string _Especialidad)
-            : base(_NumeroConsultorio, _FechaHora, _NombreMedico, _CantidadNumeros, _Asistencia)
+        public Especialista(int _NumeroConsultorio, DateTime _FechaHora, string _NombreMedico, int _CantidadNumeros, int _NumeroInterno, bool _Asistencia, string _Especialidad)
+            :base(_NumeroConsultorio, _FechaHora, _NombreMedico, _CantidadNumeros, _NumeroInterno, _Asistencia)
         {
-            this._Especialidad = Especialidad;
+            _Especialidad = Especialidad;
         }
 
 

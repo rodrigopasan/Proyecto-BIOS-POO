@@ -27,13 +27,15 @@ namespace POO_Consulta_Medica
                 Console.Write("Ingrese la cantidad de numeros: ");
                 int cantidadnumeros = Convert.ToInt32(Console.ReadLine().Trim());
 
+                int numerointerno = Convert.ToInt32(Console.ReadLine().Trim());
+
                 Console.Write("Tiene asistencia? :");
                 bool asistencia = Convert.ToBoolean(Console.ReadLine().Trim());
 
                 Console.Write("Tiene enfermera?");
                 bool tieneenfermera = Convert.ToBoolean(Console.ReadLine().Trim());
 
-                Comun unaC = new Comun(numeroconsultorio, fecha, nombremedico, cantidadnumeros, asistencia, tieneenfermera);
+                Comun unaC = new Comun(numeroconsultorio, fecha, nombremedico, cantidadnumeros, numerointerno, asistencia, tieneenfermera);
                 if (trabajo.AltaConsultaComun(unaC))
                     Console.WriteLine("Alta con exito");
                 else

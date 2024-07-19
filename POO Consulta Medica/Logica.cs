@@ -17,7 +17,6 @@ namespace POO_Consulta_Medica
             get { return _Tope; }
         }
 
-
         public int NumeroCedula
         {
             get { return _Tope; }
