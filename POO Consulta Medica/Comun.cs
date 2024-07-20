@@ -16,8 +16,10 @@ namespace POO_Consulta_Medica
             set { _TieneEnfermera = value; }
         }
         //Constructor
-        public Comun(int _NumeroConsultorio, DateTime _FechaHora, string _NombreMedico, int _CantidadNumeros, int _NumeroInterno, bool _Asistencia, bool _TieneEnfermera)
-           : base(_NumeroConsultorio, _FechaHora, _NombreMedico, _CantidadNumeros, _NumeroInterno, _Asistencia)
+        public Comun(int _NumeroConsultorio, DateTime _FechaHora, string _NombreMedico, int _CantidadNumeros, bool _Asistencia, bool _TieneEnfermera)
+           : base(_NumeroConsultorio, _FechaHora, _NombreMedico, _CantidadNumeros,  _Asistencia)
+          //public Comun(int _NumeroConsultorio, DateTime _FechaHora, string _NombreMedico, int _CantidadNumeros, int _NumeroInterno, bool _Asistencia, bool _TieneEnfermera)
+           // : base(_NumeroConsultorio, _FechaHora, _NombreMedico, _CantidadNumeros, _NumeroInterno, _Asistencia)
         {
             _TieneEnfermera = TieneEnfermera;
         }
