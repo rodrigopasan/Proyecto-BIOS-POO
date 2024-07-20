@@ -6,26 +6,28 @@ using System.Threading.Tasks;
 
 namespace POO_Consulta_Medica
 {
-    public abstract class Paciente
+    class Paciente
     {
         private string _NombrePaciente;
         private string _ApellidoPaciente;
         private DateTime _FechaNacimiento;
         private int _NumeroCedula;
-        private static HashSet<int> _NumCedUsados;
+        
 
         public string NombrePaciente
         {
+            get { return _NombrePaciente; }
             set { _NombrePaciente = value; } 
         }
 
         public string ApellidoPaciente
         {
+            get { return _ApellidoPaciente; }
             set { _ApellidoPaciente = value; }
         }
         public DateTime FechaNacimiento
         {
-              
+            get { return _FechaNacimiento;  } 
             set
             {
                 if (value > DateTime.Today)
@@ -40,13 +42,12 @@ namespace POO_Consulta_Medica
             get { return _NumeroCedula; }
             set
             {
-                if (_NumCedUsados.Contains(value))
-                    throw new Exception("el numero de cedula ya existe");
-                if (_NumeroCedula != 0)
-                    _NumCedUsados.Remove(_NumeroCedula);
-                _NumeroCedula = value;
-                _NumCedUsados.Add(_NumeroCedula);
+                if (value <= 0)
+                    throw new Exception("El numero de cedula debe de ser numero positivo");
+                else
+                    _NumeroCedula = value;
             }
+        
         }
         //Constructor Completo
         public Paciente(string pNombrePaciente, string pApellidoPaciente, DateTime pFechaNacimiento, int pNumeroCedula)
