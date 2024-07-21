@@ -18,7 +18,7 @@ namespace POO_Consulta_Medica
                 Console.Write("Ingrese numero de consultorio del 1 al 40: ");
                 int numeroconsultorio = Convert.ToInt32(Console.ReadLine().Trim());
 
-                Console.Write("Ingrese la fecha de consulta (dd/mm/aaaa): ");
+                Console.Write("Ingrese la fecha de consulta (dd/mm/aaaa hh:mm): ");
                 DateTime fecha = Convert.ToDateTime(Console.ReadLine());
 
                 Console.Write("Ingrese el medico: ");
@@ -27,14 +27,20 @@ namespace POO_Consulta_Medica
                 Console.Write("Ingrese la cantidad de numeros: ");
                 int cantidadnumeros = Convert.ToInt32(Console.ReadLine().Trim());
 
+                //Crea un GUID (NumeroInterno) por defecto "00000000-0000-0000-0000-000000000000"
+                Guid numerointerno = new Guid();
+                numerointerno = default(Guid);
+
                 Console.Write("Tiene asistencia? :");
                 bool asistencia = Convert.ToBoolean(Console.ReadLine().Trim());
 
                 Console.Write("Tiene enfermera?: ");
-                bool tieneenfermera = Convert.ToBoolean(Console.ReadLine().Trim());
+                // Si no se ingresa el bool por defecto es "false" 
+                bool tieneenfermera = false;
+                tieneenfermera = Convert.ToBoolean(Console.ReadLine().Trim());
 
-                Comun unaC = new Comun(numeroconsultorio, fecha, nombremedico, cantidadnumeros,  asistencia, tieneenfermera);
-                //Comun unaC = new Comun(numeroconsultorio, fecha, nombremedico, cantidadnumeros, numerointerno, asistencia, tieneenfermera);
+                Comun unaC = new Comun(numeroconsultorio, fecha, nombremedico, cantidadnumeros, numerointerno,  asistencia, tieneenfermera);
+
                 if (trabajo.AltaConsultaComun(unaC))
                     Console.WriteLine("Alta con exito");
                 else
@@ -66,14 +72,20 @@ namespace POO_Consulta_Medica
 
                 Console.Write("Ingrese la cantidad de numeros: ");
                 int cantidadnumeros = Convert.ToInt32(Console.ReadLine().Trim());
+                
+                //Crea un GUID (NumeroInterno) por defecto "00000000-0000-0000-0000-000000000000"
+                Guid numerointerno = new Guid();
+                numerointerno = default(Guid);
 
                 Console.Write("Tiene asistencia? :");
                 bool asistencia = Convert.ToBoolean(Console.ReadLine().Trim());
 
-                Console.Write("Especialidad: ");
-                string especialidad = Console.ReadLine().Trim();
+                Console.Write("Especialidad (Por defecto, General): ");
+                // Si no se ingresa una especialidad se queda por defecto "General";
+                string especialidad = "General";
+                especialidad = Console.ReadLine().Trim();
 
-                Especialista unE = new Especialista(numeroconsultorio, fecha, nombremedico, cantidadnumeros, asistencia, especialidad);
+                Especialista unE = new Especialista(numeroconsultorio, fecha, nombremedico, cantidadnumeros, numerointerno, asistencia, especialidad);
                 if(trabajo.AltaConsultaEspecialista(unE))
                     Console.WriteLine("Alta con exito");
                 else

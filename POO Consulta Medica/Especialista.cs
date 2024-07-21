@@ -16,11 +16,9 @@ namespace POO_Consulta_Medica
             set { _Especialidad = value; }
         }
 
-        // Constructor
-         public Especialista(int _NumeroConsultorio, DateTime _FechaHora, string _NombreMedico, int _CantidadNumeros, bool _Asistencia, string _Especialidad)
-           : base(_NumeroConsultorio, _FechaHora, _NombreMedico, _CantidadNumeros, _Asistencia)
-       //  public Especialista(int _NumeroConsultorio, DateTime _FechaHora, string _NombreMedico, int _CantidadNumeros, int _NumeroInterno, bool _Asistencia, string _Especialidad)
-        //    : base(_NumeroConsultorio, _FechaHora, _NombreMedico, _CantidadNumeros, _NumeroInterno, _Asistencia)
+        // Constructor con el GUID de _NumeroInterno (Ver clase Consulta)
+        public Especialista(int _NumeroConsultorio, DateTime _FechaHora, string _NombreMedico, int _CantidadNumeros, Guid _NumeroInterno, bool _Asistencia, string _Especialidad)
+           : base(_NumeroConsultorio, _FechaHora, _NombreMedico, _CantidadNumeros, _NumeroInterno, _Asistencia)
         {
             _Especialidad = Especialidad;
         }
