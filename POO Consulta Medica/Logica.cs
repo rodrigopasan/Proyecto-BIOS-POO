@@ -72,39 +72,81 @@ namespace POO_Consulta_Medica
             else
                 return false;
         }
-        public Consulta BuscarConsultorio(int pNumeroConsultorio)
+        //Se modificó BuscarConsultorio para que contemple un segundo parametro "DateTime pFechaHora" / "unaConsulta.FechaHora"
+            // Falta probar si en el caso que el dato no se repita ("todo esté ok") está tomando  bien la referencia de la última fecha
+                // Falta ordenar los datos al mostrar
+        public Consulta BuscarConsultorio(int pNumeroConsultorio, DateTime pFechaHora)
         {
-            foreach(Consulta C in _listaConsulta)
+            foreach(Consulta C in _listaConsulta) //Va a recorrer las entradas de Consultas
             {
-                if (C != null)
-                    if (C.NumeroConsultorio == pNumeroConsultorio)
-                        return C;
+                if (C != null)  //Para la primera vuelta que no va a tener datos
+                { 
+                    if (C.FechaHora == pFechaHora) //Si en alguna de las vueltas coinciden las fechas va a dar error
+                    throw new Exception("Existe una consulta con la fecha solicitada");
+                }
+                else
+                {
+                    return C;
+                }
             }//fin foreach
             return null;
         }
+        //Se modificó AltaConsultaComun y AltaConsultaEspecialista: 
+                // Ahora contempla el uso de GUID como Numero interno;
+                // Valida si pasaron 2 horas desde 
         public bool AltaConsultaComun(Consulta unaConsulta)
         {
-            Consulta _buscoConsultorio = BuscarConsultorio(unaConsulta.NumeroConsultorio);
-            if(_buscoConsultorio != null)
-                throw new Exception("El numero de consultorio ya esta en uso");
-            else
-            {
-                _listaConsulta.Add(unaConsulta);
-            }
+            Consulta _buscoConsultorio = BuscarConsultorio(unaConsulta.NumeroConsultorio, unaConsulta.FechaHora);
+            Guid id = unaConsulta.ObtenerNumeroInterno();
+            unaConsulta.NumeroInterno = id;
+            if (_buscoConsultorio != null)
+                if (unaConsulta.NumeroConsultorio == _buscoConsultorio.NumeroConsultorio)
+                {
+                    // Se verifica que existan dos horas de diferencia para la fecha solicitada
+                    // Se utiliza la función DiferenciaHoras y se le pasa como parametro "_buscoConsultorio.FechaHora"
+                    int dif2horas = unaConsulta.DiferenciaHoras(_buscoConsultorio.FechaHora);
+                    if (dif2horas >= 2 || dif2horas <= -2)
+                        {
+                            _listaConsulta.Add(unaConsulta);
+                            return true;
+                        }
+                    else
+                        {
+                            double sumarhoras = dif2horas; //La suma de horas se debe trabajar con double
+                            throw new Exception("\n" + "---> Error: Los registros de consultas deben estar distanciados por un mínimo de 2 horas" + "\n" + "\n" + "Consultorio Nº: " + unaConsulta.NumeroConsultorio + "\n" + "Fecha de registro en conflicto: " + _buscoConsultorio.FechaHora + "\n" + "Fecha de registro solicitada: " + unaConsulta.FechaHora + "\n" + "\n" + "Fecha sugerida 1: " + _buscoConsultorio.FechaHora.AddHours(-2) + "\n" + "Fecha sugerida 2: " + _buscoConsultorio.FechaHora.AddHours(2) + "\n" + "\n" + "Recuerde que puede realizar una busqueda de las consultas desde el menú principal");
+                        }
+                }
+            _listaConsulta.Add(unaConsulta);
             return true;
         }
 
         public bool AltaConsultaEspecialista(Consulta unaConsultaEspecialista)
         {
-            Consulta _buscoConsultorio = BuscarConsultorio(unaConsultaEspecialista.NumeroConsultorio);
+            Consulta _buscoConsultorio = BuscarConsultorio(unaConsultaEspecialista.NumeroConsultorio, unaConsultaEspecialista.FechaHora);
+            Guid id = unaConsultaEspecialista.ObtenerNumeroInterno();
+            unaConsultaEspecialista.NumeroInterno = id;
             if (_buscoConsultorio != null)
-                throw new Exception("El numero de consultorio ya esta en uso");
+                if(unaConsultaEspecialista.NumeroConsultorio == _buscoConsultorio.NumeroConsultorio)
+                {
+                    int dif2horas = unaConsultaEspecialista.DiferenciaHoras(_buscoConsultorio.FechaHora);
+                    if(dif2horas >= 2 || dif2horas <= 2)
+                    {
+                        _listaConsulta.Add(unaConsultaEspecialista);
+                        return true;
+                    }
+                    else
+                    {
+                        double sumarhoras = dif2horas;
+                        throw new Exception("\n" + "---> Error: Los registros de consultas deben estar distanciados por un mínimo de 2 horas" + "\n" + "\n" + "Consultorio Nº: " + unaConsultaEspecialista.NumeroConsultorio + "\n" + "Fecha de registro en conflicto: " + _buscoConsultorio.FechaHora + "\n" + "Fecha de registro solicitada: " + unaConsultaEspecialista.FechaHora + "\n" + "\n" + "Fecha sugerida 1: " + _buscoConsultorio.FechaHora.AddHours(-2) + "\n" + "Fecha sugerida 2: " + _buscoConsultorio.FechaHora.AddHours(2) + "\n" + "\n" + "Recuerde que puede realizar una busqueda de las consultas desde el menú principal");
+                    }
+                }
             else
             {
-                _listaConsulta.Add(unaConsultaEspecialista);
+                throw new Exception("El numero de consultorio ya esta en uso");
             }
             return true;
         }
+
         //obtener una consulta en una posicion x en mi repositorio
         public Consulta Item(int pos)
         {
@@ -113,6 +155,5 @@ namespace POO_Consulta_Medica
             else
                 throw new Exception("Indice de Conjunto Invalido");
         }
-        //comento para ver si sube
     }
 }
