@@ -83,10 +83,10 @@ namespace POO_Consulta_Medica
                 { 
                     if (C.FechaHora == pFechaHora) //Si en alguna de las vueltas coinciden las fechas va a dar error
                     throw new Exception("Existe una consulta con la fecha solicitada");
-                }
-                else
-                {
-                    return C;
+                    else
+                    {
+                        return C;
+                    }
                 }
             }//fin foreach
             return null;
