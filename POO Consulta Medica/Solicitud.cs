@@ -14,26 +14,34 @@ namespace POO_Consulta_Medica
         private DateTime FechaHoraSolicitud;
         private bool AsistioConsulta;
 
+        private static int Contador=0;
+
         Paciente _Paciente;
         Consulta _Consulta;
         public int _NumeroInterno
         {
             get { return NumeroInterno; }
-            set { NumeroInterno = value; }
-        }
 
-        public DateTime _FechaHoraSolicitud 
+        }
+        public static int _Contador
+        {
+            get { return Contador; }
+
+        }
+        public DateTime _FechaHoraSolicitud
         {
             get { return FechaHoraSolicitud; }
             set { FechaHoraSolicitud = value; }
         }
 
-     
-        public Solicitud(int numeroIntern, DateTime fechaHoraSolicitud,bool asistencia)
+
+        public Solicitud(int numeroIntern, DateTime fechaHoraSolicitud, bool asistencia)
         {
             NumeroInterno = numeroIntern;
             FechaHoraSolicitud = fechaHoraSolicitud;
-            Asistencia = asistencia;
+            AsistioConsulta = asistencia;
+            NumeroInterno = Contador;
+            Contador++;
         }
         public bool _AsistioConsulta
         {
@@ -45,4 +53,11 @@ namespace POO_Consulta_Medica
         {
             AsistioConsulta = asistio;
         }
+
+        public override string ToString()
+        {
+        
+            return $"Solicitud ({NumeroInterno} - {FechaHoraSolicitud} - Asistencia: {AsistioConsulta})";
+        }
     }
+}
