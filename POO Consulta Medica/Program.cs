@@ -206,6 +206,11 @@ namespace POO_Consulta_Medica
                 }
                 else
                 {
+                    Console.WriteLine(unP.ToString());
+                }
+
+                Console.ReadLine();
+
                     Console.Write("Agregar consulta, número de consultorio: ");
                     int _numeroconsultorio = Convert.ToInt32(Console.ReadLine().Trim());
 
@@ -237,7 +242,7 @@ namespace POO_Consulta_Medica
                         throw new Exception("Error - En Alta Consulta Comun");
                     }
                 }
-            }
+            
             catch (Exception eX)
             {
                 Console.WriteLine(eX.Message);
@@ -268,6 +273,10 @@ namespace POO_Consulta_Medica
                 }
                 else
                 {
+                    Console.WriteLine(unP.ToString());
+                }
+
+                Console.ReadLine();
 
                     Console.Write("Agregar consulta, número de consultorio: ");
                     int _numeroconsultorio = Convert.ToInt32(Console.ReadLine().Trim());
@@ -299,7 +308,7 @@ namespace POO_Consulta_Medica
                         throw new Exception("Error - En Alta Consulta Especialista");
                     }
                 }
-            }
+            
             catch (Exception eX)
             {
                 Console.WriteLine(eX.Message);
@@ -330,6 +339,12 @@ namespace POO_Consulta_Medica
                     Console.ReadLine();
                     return;
                 }
+                else
+                {
+                    Console.WriteLine(unP.ToString());
+                }
+
+                Console.ReadLine();
 
                 Console.Write("Ingrese numero de consulta: ");
                 int _numeroconsulta = Convert.ToInt32(Console.ReadLine().Trim());
@@ -344,6 +359,12 @@ namespace POO_Consulta_Medica
                     Console.ReadLine();
                     return;
                 }
+                else
+                {
+                    Console.WriteLine(unaC.ToString());
+                }
+
+                Console.ReadLine();
 
                 Console.Write("Ingrese el numero de solicitud: ");
                 int _numerosolicitud = Convert.ToInt32(Console.ReadLine().Trim());
