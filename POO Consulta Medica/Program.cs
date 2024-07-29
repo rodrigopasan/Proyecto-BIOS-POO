@@ -366,16 +366,13 @@ namespace POO_Consulta_Medica
 
                 Console.ReadLine();
 
-                Console.Write("Ingrese el numero de solicitud: ");
-                int _numerosolicitud = Convert.ToInt32(Console.ReadLine().Trim());
-
                 Console.Write("La fecha del dia es: ");
                 DateTime _fechasolicitud = Convert.ToDateTime(Console.ReadLine());
 
                 Console.Write("Concurrio?: ");
                 bool _asistencia = Convert.ToBoolean(Console.ReadLine().Trim());
 
-                Solicitud unaS = new Solicitud(_numerosolicitud, _fechasolicitud, _asistencia, unP, unaC);
+                Solicitud unaS = new Solicitud(_fechasolicitud, _asistencia, unP, unaC);
                 if (_log.AgregarSolicitud(unaS))
                 {
                     Console.WriteLine("Alta Correcta");

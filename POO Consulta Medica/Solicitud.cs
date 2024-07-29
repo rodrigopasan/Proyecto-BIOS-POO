@@ -11,8 +11,7 @@ namespace POO_Consulta_Medica
         private int _NumeroInterno;
         private static int _Contador = 1;
         private bool _Asistencia;
-        private DateTime _FechaSolicitud = DateTime.Today;
-        private int _NumeroSolicitud;      
+        private DateTime _FechaSolicitud = DateTime.Today;      
         Paciente _Paciente;
         Consulta _Consulta;
 
@@ -31,12 +30,6 @@ namespace POO_Consulta_Medica
         {
             get { return _FechaSolicitud; }
             set { _FechaSolicitud = value; }
-        }
-
-        public int NumeroSolicitud
-        {
-            get { return _NumeroSolicitud; }
-            set { _NumeroSolicitud = value; }
         }
 
         public Consulta Consulta
@@ -66,9 +59,9 @@ namespace POO_Consulta_Medica
         }
 
         //Cosntructor comun
-        public Solicitud(int _NumeroSolicitud, DateTime _FechaSolicitud, bool _Asistencia ,Paciente unP, Consulta unaC)
+        public Solicitud(DateTime _FechaSolicitud, bool _Asistencia ,Paciente unP, Consulta unaC)
         {
-            NumeroSolicitud = _NumeroSolicitud;
+
             FechaSolicitud = _FechaSolicitud;
             Asistencia = _Asistencia;
             Paciente = unP;
@@ -80,7 +73,7 @@ namespace POO_Consulta_Medica
 
         public override string ToString()
         {
-            return ($"El numero de soclicitud: {_NumeroSolicitud} + la fecha de solicitud: {_FechaSolicitud} + concurrio: {_Asistencia} + numero de consulta: {_Consulta } + el paciente es: {_Paciente} + numero interno: {_NumeroInterno}");
+            return ($"El numero de consulta: {Consulta.NumeroConsultorio} + la fecha de solicitud: {_FechaSolicitud} + concurrio: {_Asistencia} + el paciente es: {_Paciente} + numero interno: {_NumeroInterno}");
         }
 
     }

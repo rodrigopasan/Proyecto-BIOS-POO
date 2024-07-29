@@ -141,7 +141,7 @@ namespace POO_Consulta_Medica
         }
         public bool AgregarSolicitud(Solicitud unaSolicitud)
         {
-            Solicitud _buscoSolicitud = BuscarSolicitud(unaSolicitud.NumeroSolicitud);
+            Solicitud _buscoSolicitud = BuscarSolicitud(unaSolicitud.Consulta.NumeroConsultorio);
             if (_buscoSolicitud != null)
                 throw new Exception("El numero de consultorio ya esta en uso");
             else
