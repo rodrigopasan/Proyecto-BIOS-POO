@@ -177,5 +177,5 @@ namespace POO_Consulta_Medica
             else
                 throw new Exception("Indice de Conjunto Invalido");
         }
-    }
+    s}
 }
