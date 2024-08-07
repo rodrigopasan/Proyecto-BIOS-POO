@@ -16,10 +16,9 @@ namespace POO_Consulta_Medica
             set { _Especialidad = value; }
         }
 
-        // Constructor
-         public Especialista(int _NumeroConsulta, int _NumeroConsultorio, DateTime _FechaHora, string _NombreMedico, int _CantidadNumeros, string _Especialidad)
-           : base(_NumeroConsulta, _NumeroConsultorio, _FechaHora, _NombreMedico, _CantidadNumeros)
-      
+        // Constructor con el GUID de _NumeroInterno (Ver clase Consulta)
+        public Especialista(int _NumeroConsultorio, DateTime _FechaHora, string _NombreMedico, int _CantidadNumeros, Guid _NumeroInterno, bool _Asistencia, string _Especialidad)
+           : base(_NumeroConsultorio, _FechaHora, _NombreMedico, _CantidadNumeros, _NumeroInterno, _Asistencia)
         {
             Especialidad = _Especialidad;
         }
@@ -27,7 +26,7 @@ namespace POO_Consulta_Medica
 
         public override string ToString()
         {
-            return $"Especialista {NumeroConsulta}, consultorio: {NumeroConsultorio}, fecha: {FechaHora}, Dr {NombreMedico}, numero: {CantidadNumeros}, especialidad {Especialidad}";
+            return $"Consulta Especialista ({NumeroConsultorio} - {FechaHora} - Dr {NombreMedico} - {CantidadNumeros} - {Asistencia} - {Especialidad})";
         }
     }
 }
