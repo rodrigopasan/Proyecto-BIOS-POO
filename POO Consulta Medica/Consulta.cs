@@ -6,15 +6,22 @@ using System.Threading.Tasks;
 
 namespace POO_Consulta_Medica
 {
-    class Consulta
+    public abstract class Consulta
     {
+        // hacer caluclo o formula del Numero Interno
+        private int _NumeroConsulta;
         private int _NumeroConsultorio;
         private DateTime _FechaHora;
         private string _NombreMedico;
-        private Guid _NumeroInterno;
         private int _CantidadNumeros;
         private static int _Contador = 0;
 
+
+        //Asociacion entre paciente y consulta
+        public int NumeroConsulta
+        {
+            get { return _NumeroConsulta; }
+        }
 
         //atributos
         public int NumeroConsultorio
@@ -34,13 +41,15 @@ namespace POO_Consulta_Medica
             get { return _FechaHora; }
             set
             {
-                if (value >= DateTime.Now)
                 {
-                    _FechaHora = value;
-                }
-                else
-                {
-                    throw new Exception("La fecha ingresada es en pasado, ingrese una fecha a futuro.");
+                    if (value >= DateTime.Now)
+                    {
+                        _FechaHora = value;
+                    }
+                    else
+                    {
+                        throw new Exception("La fecha ingresada es en pasado, ingrese una fecha a futuro.");
+                    }
                 }
             }
         }
@@ -66,29 +75,21 @@ namespace POO_Consulta_Medica
                 }
             }
         }
-        public Guid NumeroInterno
-        {
-            get { return _NumeroInterno; }
 
-            set { _NumeroInterno = value; }
 
-        }
-        public bool Asistencia
-        {
-            get { return _Asistencia; }
-            set { _Asistencia = value; }
-        }
 
         //Constructor Completo
-            // Se agrega "Guid _NumeroInterno" para comenzar a trabajar con NumeroInterno, esto se refleja a lo largo de las clases asociadas.
-        public Consulta(int _NumeroConsultorio, DateTime _FechaHora, string _NombreMedico, int _CantidadNumeros, Guid _NumeroInterno, bool _Asistencia)
+        public Consulta(int _NumeroConsulta, int _NumeroConsultorio, DateTime _FechaHora, string _NombreMedico, int _CantidadNumeros )
+        
         {
             NumeroConsultorio = _NumeroConsultorio;
             FechaHora = _FechaHora;
             NombreMedico = _NombreMedico;
             CantidadNumeros = _CantidadNumeros;
-            NumeroInterno = _NumeroInterno;
-            Asistencia = _Asistencia;
+
+            Consulta._Contador++;
+            this._NumeroConsulta = Consulta._Contador;
+            
         }
 
         public int DiferenciaHoras(DateTime HoraRegAnterior)
@@ -100,13 +101,6 @@ namespace POO_Consulta_Medica
             return (_DifHs);
         }
 
-        // Se crea ObtenerNumeroInterno para utilizar en Logica y obtener un GUID (Por ejemplo: fb7f4727-3bfb-491e-a561-27d7579d48b0)
-            // De esta manera los numeros internos no se repiten y permiten identificar a cada entrada de consulta como unica
-        public Guid ObtenerNumeroInterno ()
-        {
-            Guid id = Guid.NewGuid();
-            return id;
-        }
 
         public override string ToString()
         {

@@ -9,7 +9,6 @@ namespace POO_Consulta_Medica
     class Paciente
     {
         private string _NombrePaciente;
-        private string _ApellidoPaciente;
         private DateTime _FechaNacimiento;
         private int _NumeroCedula;
         
@@ -26,11 +25,6 @@ namespace POO_Consulta_Medica
            } 
         }
 
-        public string ApellidoPaciente
-        {
-            get { return _ApellidoPaciente; }
-            set { _ApellidoPaciente = value; }
-        }
         public DateTime FechaNacimiento
         {
             get { return _FechaNacimiento;  } 
@@ -56,17 +50,16 @@ namespace POO_Consulta_Medica
         }
 
         //Constructor Completo
-        public Paciente(string pNombrePaciente, string pApellidoPaciente, DateTime pFechaNacimiento, int pNumeroCedula)
+        public Paciente(string pNombrePaciente, DateTime pFechaNacimiento, int pNumeroCedula)
         {
             NombrePaciente = pNombrePaciente;
-            ApellidoPaciente = pApellidoPaciente;
             FechaNacimiento = pFechaNacimiento;
             NumeroCedula = pNumeroCedula;
         }
 
         public override string ToString()
         {
-            return ($"Nombre: {_NombrePaciente} Apelldio: {_ApellidoPaciente} Numero Cedula: {_NumeroCedula} Fehca Nacimiento {_FechaNacimiento}");
+            return ($"Nombre: {_NombrePaciente}, Cedula: {_NumeroCedula}, Fecha Nacimiento {_FechaNacimiento}");
         }
     }
 }
