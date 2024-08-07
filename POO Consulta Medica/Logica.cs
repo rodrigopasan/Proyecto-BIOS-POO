@@ -140,8 +140,6 @@ namespace POO_Consulta_Medica
                         throw new Exception("\n" + "---> Error: Los registros de consultas deben estar distanciados por un mínimo de 2 horas" + "\n" + "\n" + "Consultorio Nº: " + unaConsultaEspecialista.NumeroConsultorio + "\n" + "Fecha de registro en conflicto: " + _buscoConsultorio.FechaHora + "\n" + "Fecha de registro solicitada: " + unaConsultaEspecialista.FechaHora + "\n" + "\n" + "Fecha sugerida 1: " + _buscoConsultorio.FechaHora.AddHours(-2) + "\n" + "Fecha sugerida 2: " + _buscoConsultorio.FechaHora.AddHours(2) + "\n" + "\n" + "Recuerde que puede realizar una busqueda de las consultas desde el menú principal");
                     }
                 }
-<<<<<<< HEAD
-=======
             _listaConsulta.Add(unaConsultaEspecialista);
             return true;
         }
@@ -158,10 +156,9 @@ namespace POO_Consulta_Medica
         }
         public bool AgregarSolicitud(Solicitud unaSolicitud)
         {
-            Solicitud _buscoSolicitud = BuscarSolicitud(unaSolicitud.Consulta.NumeroConsultorio);
+            Solicitud _buscoSolicitud = BuscarSolicitud(unaSolicitud.NumeroInterno);
             if (_buscoSolicitud != null)
                 throw new Exception("El numero de consultorio ya esta en uso");
->>>>>>> origin/Anibal
             else
             {
                 throw new Exception("El numero de consultorio ya esta en uso");

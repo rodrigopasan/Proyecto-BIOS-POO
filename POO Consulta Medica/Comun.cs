@@ -9,6 +9,7 @@ namespace POO_Consulta_Medica
     class Comun: Consulta
     {
         private bool _TieneEnfermera;
+        private string _tipEnfermera;
 
         public bool TieneEnfermera
         {
@@ -19,7 +20,12 @@ namespace POO_Consulta_Medica
         public Comun(int _NumeroConsultorio, DateTime _FechaHora, string _NombreMedico, int _CantidadNumeros, Guid _NumeroInterno, bool _Asistencia, bool _TieneEnfermera)
            : base(_NumeroConsultorio, _FechaHora, _NombreMedico, _CantidadNumeros, _NumeroInterno,  _Asistencia)
         {
-            _TieneEnfermera = TieneEnfermera;
+            TieneEnfermera = _TieneEnfermera;
+            if (_TieneEnfermera == false)
+                _tipEnfermera = "No";
+            else
+                _tipEnfermera = "Si";
+
         }
 
         public override string ToString()

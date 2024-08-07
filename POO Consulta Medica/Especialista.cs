@@ -20,7 +20,7 @@ namespace POO_Consulta_Medica
         public Especialista(int _NumeroConsultorio, DateTime _FechaHora, string _NombreMedico, int _CantidadNumeros, Guid _NumeroInterno, bool _Asistencia, string _Especialidad)
            : base(_NumeroConsultorio, _FechaHora, _NombreMedico, _CantidadNumeros, _NumeroInterno, _Asistencia)
         {
-            _Especialidad = Especialidad;
+            Especialidad = _Especialidad;
         }
 
 

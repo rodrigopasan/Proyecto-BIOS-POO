@@ -13,7 +13,8 @@ namespace POO_Consulta_Medica
         private string _NombreMedico;
         private Guid _NumeroInterno;
         private int _CantidadNumeros;
-        private bool _Asistencia;
+        private static int _Contador = 0;
+
 
         //atributos
         public int NumeroConsultorio
@@ -55,7 +56,7 @@ namespace POO_Consulta_Medica
             get { return _CantidadNumeros; }
             set
             {
-                if (value > 0)
+                if (value > 0 && value < 10)
                 {
                     _CantidadNumeros = value;
                 }
@@ -110,7 +111,7 @@ namespace POO_Consulta_Medica
         public override string ToString()
         {
 
-            return ($"Consulta en consultorio: {_NumeroConsultorio } Fecha y hora: {_FechaHora.ToShortDateString() } Médico: {_NombreMedico} Cantidad de números: {_CantidadNumeros} Asistencia {_Asistencia}");
+            return ($"Consulta: {_NumeroConsulta}, consultorio: {_NumeroConsultorio }, Fecha y hora: {_FechaHora.ToShortDateString() }, Médico: {_NombreMedico}, números: {_CantidadNumeros}");
         }
         
     }
