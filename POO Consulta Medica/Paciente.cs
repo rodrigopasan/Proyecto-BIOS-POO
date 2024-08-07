@@ -16,7 +16,13 @@ namespace POO_Consulta_Medica
         public string NombrePaciente
         {
             get { return _NombrePaciente; }
-            set { _NombrePaciente = value; } 
+            set
+            {
+                if (value.Trim().Length > 5)
+                    _NombrePaciente = value;
+                else
+                    throw new Exception("Se debe saber el nombre compelto del alumno");
+           } 
         }
 
         public DateTime FechaNacimiento
@@ -36,13 +42,13 @@ namespace POO_Consulta_Medica
             get { return _NumeroCedula; }
             set
             {
-                if (value <= 0)
-                    throw new Exception("El numero de cedula debe de ser numero positivo");
-                else
+                if (value.ToString().Trim().Length == 7 || value.ToString().Trim().Length == 8)
                     _NumeroCedula = value;
+                else
+                    throw new Exception("La cedula son 7 u 8 digitos");
             }
-        
         }
+
         //Constructor Completo
         public Paciente(string pNombrePaciente, DateTime pFechaNacimiento, int pNumeroCedula)
         {
@@ -53,7 +59,7 @@ namespace POO_Consulta_Medica
 
         public override string ToString()
         {
-            return ($"Nombre: {_NombrePaciente} Numero Cedula: {_NumeroCedula} Fehca Nacimiento {_FechaNacimiento}");
+            return ($"Nombre: {_NombrePaciente}, Cedula: {_NumeroCedula}, Fecha Nacimiento {_FechaNacimiento}");
         }
     }
 }

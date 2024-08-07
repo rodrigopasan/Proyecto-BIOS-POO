@@ -65,25 +65,19 @@ namespace POO_Consulta_Medica
             else
                 return false;
         }
-        public Consulta BuscarConsulta(int pNumeroConsultorio, DateTime pFechaHora)
+        public Consulta BuscarConsulta(int pNumeroConsultorio)
         {
             foreach (Consulta C in _listaConsulta) //Va a recorrer las entradas de Consultas
             {
-                if (C != null)  //Para la primera vuelta que no va a tener datos
-                {
-                    if (C.FechaHora == pFechaHora) //Si en alguna de las vueltas coinciden las fechas va a dar error
-                        throw new Exception("Existe una consulta con la fecha solicitada");
-                    else
-                    {
-                        return C;
-                    }
-                }
+                if (C.NumeroConsultorio == pNumeroConsultorio)
+                    return (C);
             }//fin foreach
             return null;
         }
+
         public bool AltaConsultaComun(Consulta unaConsulta)
         {
-            Consulta _buscoConsulta = BuscarConsulta(unaConsulta.NumeroConsultorio, unaConsulta.FechaHora);
+            Consulta _buscoConsulta = BuscarConsulta(unaConsulta.NumeroConsultorio);
             if (_buscoConsulta != null)
                 if (unaConsulta.NumeroConsultorio == _buscoConsulta.NumeroConsultorio)
                 {
@@ -107,7 +101,7 @@ namespace POO_Consulta_Medica
 
         public bool AltaConsultaEspecialista(Consulta unaConsultaEspecialista)
         {
-            Consulta _buscoConsulta = BuscarConsulta(unaConsultaEspecialista.NumeroConsultorio, unaConsultaEspecialista.FechaHora);
+            Consulta _buscoConsulta = BuscarConsulta(unaConsultaEspecialista.NumeroConsultorio);
             if (_buscoConsulta != null)
                 if (unaConsultaEspecialista.NumeroConsultorio == _buscoConsulta.NumeroConsultorio)
                 {
@@ -141,7 +135,7 @@ namespace POO_Consulta_Medica
         }
         public bool AgregarSolicitud(Solicitud unaSolicitud)
         {
-            Solicitud _buscoSolicitud = BuscarSolicitud(unaSolicitud.Consulta.NumeroConsultorio);
+            Solicitud _buscoSolicitud = BuscarSolicitud(unaSolicitud.NumeroInterno);
             if (_buscoSolicitud != null)
                 throw new Exception("El numero de consultorio ya esta en uso");
             else
@@ -161,6 +155,17 @@ namespace POO_Consulta_Medica
             return _listaConsulta;
         }
 
+        public List<Consulta> ListaConsultaPorConsultorio(Consulta unConsultorio)
+        {
+            List<Consulta> _resultado = new List<Consulta>();
+            foreach(Consulta item in _listaConsulta)
+            {
+                if (unConsultorio.NumeroConsultorio == item.NumeroConsultorio)
+                    _resultado.Add(item);
+            }
+            return _resultado;
+        }
+
         //obtener una consulta en una posicion x en mi repositorio
         public Consulta Item(int pos)
         {
@@ -169,6 +174,26 @@ namespace POO_Consulta_Medica
             else
                 throw new Exception("Indice de Conjunto Invalido");
         }
-        //comento para ver si sube
+       
+        public Solicitud BusSolCons(int numConsultorio)
+        {
+            foreach(Solicitud S in _listaSolicitud)
+            {
+                if (S.Consulta.NumeroConsultorio == numConsultorio)
+                    return S;
+            }
+            return null;
+        }
+
+        public int CantidadSolicitudes(Solicitud unaSolicitud)
+        {
+            int contador = 0;
+            foreach (Solicitud Item in _listaSolicitud)
+            {
+                if (Item.Consulta.NumeroConsultorio == unaSolicitud.NumeroInterno)
+                    contador++;
+            }
+            return contador;
+        }
     }
 }

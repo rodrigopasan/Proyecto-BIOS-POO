@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace POO_Consulta_Medica
 {
     class Program
+
     {
         static void Main(string[] args)
         {
@@ -35,7 +36,7 @@ namespace POO_Consulta_Medica
             Console.WriteLine("3 - Alta Consulta Especialista");
             Console.WriteLine("4 - Agregar Solicitud");
             Console.WriteLine("5 - Marcar Asistenca Solicitud Número");
-            Console.WriteLine("6 - Listado Socio de Consulta");
+            Console.WriteLine("6 - Listado Solicitudes de Consultas");
             Console.WriteLine("7 - Listado Consulta");
             Console.WriteLine("8 - Listado Solicitudes de Consulta Paciente");
             Console.WriteLine("9 - Salir");
@@ -70,7 +71,7 @@ namespace POO_Consulta_Medica
                     //MarcarAsistenciaSolicitudNumero(_log);
                     break;
                 case 6:
-                    ListaSocioConsulta(_log);
+                    ListadoSolicitudesdeConsulta(_log);
                     break;
                 case 7:
                     ListadoConsulta(_log);
@@ -192,28 +193,13 @@ namespace POO_Consulta_Medica
                 Console.WriteLine("               Agregar Consulta Comun");
                 Console.WriteLine("---------------------------------------------------------\n\n");
 
-                Console.Write("Ingrese el número de cédula del paciente: ");
-                int _numerocedula = Convert.ToInt32(Console.ReadLine().Trim());
 
-                //busco paciente por cedula
-                Paciente unP = _log.BuscarPaciente(_numerocedula);
+                    int _numeroconsulta = 0;
 
-                if (unP == null)
-                {
-                    Console.WriteLine("El paciente no existe");
-                    Console.ReadLine();
-                    return;
-                }
-                else
-                {
-                    Console.WriteLine(unP.ToString());
-                }
 
-                Console.ReadLine();
-
-                    Console.Write("Agregar consulta, número de consultorio: ");
+                    Console.Write("Número de consultorio: " );
                     int _numeroconsultorio = Convert.ToInt32(Console.ReadLine().Trim());
-
+                     
                     Console.Write("Ingrese la fecha y hora de consulta: ");
                     DateTime _fechaconsulta = Convert.ToDateTime(Console.ReadLine());
 
@@ -223,13 +209,11 @@ namespace POO_Consulta_Medica
                     Console.Write("Ingrese la cantidad de numeros: ");
                     int _cantdidadnumero = Convert.ToInt32(Console.ReadLine().Trim());
 
-                    Console.Write("Concurrio?: ");
-                    bool _asistencia = Convert.ToBoolean(Console.ReadLine());
+                    bool _tieneenfermera = false;
+                    Console.Write("Tiene enfermera?: " + _tieneenfermera);
+                    Console.ReadLine();
 
-                    Console.Write("Tiene enfermera?: ");
-                    bool _tieneenfermera = Convert.ToBoolean(Console.ReadLine());
-
-                    Comun unaC = new Comun(_numeroconsultorio, _fechaconsulta, _nombremedico, _cantdidadnumero, _asistencia, _tieneenfermera);
+                    Comun unaC = new Comun(_numeroconsulta, _numeroconsultorio, _fechaconsulta, _nombremedico, _cantdidadnumero, _tieneenfermera);
 
                     //inserto consuta comun nueva
                     if (_log.AltaConsultaComun(unaC))
@@ -259,24 +243,9 @@ namespace POO_Consulta_Medica
                 Console.WriteLine("               Agregar Consulta Especialista");
                 Console.WriteLine("---------------------------------------------------------\n\n");
 
-                Console.Write("Ingrese el número de cédula del paciente: ");
-                int _numerocedula = Convert.ToInt32(Console.ReadLine().Trim());
+ 
+                    int _numeroconsulta = 0;
 
-                //busco paciente por cedula
-                Paciente unP = _log.BuscarPaciente(_numerocedula);
-
-                if (unP == null)
-                {
-                    Console.WriteLine("El paciente no existe");
-                    Console.ReadLine();
-                    return;
-                }
-                else
-                {
-                    Console.WriteLine(unP.ToString());
-                }
-
-                Console.ReadLine();
 
                     Console.Write("Agregar consulta, número de consultorio: ");
                     int _numeroconsultorio = Convert.ToInt32(Console.ReadLine().Trim());
@@ -290,13 +259,10 @@ namespace POO_Consulta_Medica
                     Console.Write("Ingrese la cantidad de numeros: ");
                     int _cantdidadnumero = Convert.ToInt32(Console.ReadLine().Trim());
 
-                    Console.Write("Concurrio?: ");
-                    bool _asistencia = Convert.ToBoolean(Console.ReadLine());
-
                     Console.Write("Ingrese la especialidad: ");
                     string _especialidad = Console.ReadLine().Trim();
 
-                    Especialista unaE = new Especialista(_numeroconsultorio, _fechaconsulta, _nombremedico, _cantdidadnumero, _asistencia, _especialidad);
+                    Especialista unaE = new Especialista(_numeroconsulta, _numeroconsultorio, _fechaconsulta, _nombremedico, _cantdidadnumero, _especialidad);
 
                     if (_log.AltaConsultaEspecialista(unaE))
                     {
@@ -306,9 +272,8 @@ namespace POO_Consulta_Medica
                     else
                     {
                         throw new Exception("Error - En Alta Consulta Especialista");
-                    }
-                }
-            
+                    }   
+            }
             catch (Exception eX)
             {
                 Console.WriteLine(eX.Message);
@@ -329,7 +294,6 @@ namespace POO_Consulta_Medica
                 Console.Write("Ingrese el número de cédula del paciente: ");
                 int _numerocedula = Convert.ToInt32(Console.ReadLine().Trim());
 
-
                 //busco por cedula
                 Paciente unP = _log.BuscarPaciente(_numerocedula);
 
@@ -343,37 +307,40 @@ namespace POO_Consulta_Medica
                 {
                     Console.WriteLine(unP.ToString());
                 }
-
                 Console.ReadLine();
 
-                Console.Write("Ingrese numero de consulta: ");
-                int _numeroconsulta = Convert.ToInt32(Console.ReadLine().Trim());
 
-                //Console.Write("La fecha de consulta es: ");
-                //DateTime _fechaconsulta = Convert.ToDateTime(Console.ReadLine());
-                DateTime _fechaconsulta = DateTime.Now;
-                Consulta unaC = _log.BuscarConsulta(_numeroconsulta, _fechaconsulta);
+                Console.Write("Ingrese numero de consultorio: ");
+                int numconsultorio = Convert.ToInt32(Console.ReadLine());
+                Consulta unaC = _log.BuscarConsulta(numconsultorio);
                 if (unaC == null)
                 {
-                    Console.WriteLine("La consulta no existe");
+                    Console.WriteLine("No hay numero de consultorio no existe");
                     Console.ReadLine();
-                    return;
+                     return;  //me voy del listar
                 }
                 else
                 {
                     Console.WriteLine(unaC.ToString());
                 }
-
                 Console.ReadLine();
 
-                Console.Write("La fecha del dia es: ");
-                DateTime _fechasolicitud = Convert.ToDateTime(Console.ReadLine());
+                Console.Write("Ingrese el numero de consulta: ");
+                int _numeroconsulta = Convert.ToInt32(Console.ReadLine().Trim());
+                
+                int _numerointerno = 0;
 
-                Console.Write("Concurrio?: ");
-                bool _asistencia = Convert.ToBoolean(Console.ReadLine().Trim());
 
-                Solicitud unaS = new Solicitud(_fechasolicitud, _asistencia, unP, unaC);
-                if (_log.AgregarSolicitud(unaS))
+                DateTime _fechasolicitud = DateTime.Today;
+                Console.Write("La fecha del dia es: " + _fechasolicitud);
+                Console.ReadLine();
+
+                bool _asistencia = false;
+                Console.Write("Concurrio?: " + _asistencia);
+                Console.ReadLine();
+
+                Solicitud UnaS = new Solicitud(_numerointerno, _fechasolicitud, _asistencia, unP, unaC);
+                if (_log.AgregarSolicitud(UnaS))
                 {
                     Console.WriteLine("Alta Correcta");
                     Console.ReadLine();
@@ -450,6 +417,9 @@ namespace POO_Consulta_Medica
         public static void ListadoConsulta(Logica _log)
         {
             Console.Clear();
+            Console.WriteLine("---------------------------------------------------------");
+            Console.WriteLine("               Listado de Consultas");
+            Console.WriteLine("---------------------------------------------------------\n\n");
 
             //busco la informacion
             List<Consulta> _lista = _log.ListaConsulta();
@@ -469,24 +439,36 @@ namespace POO_Consulta_Medica
             Console.ReadLine();
         }
 
-        public static void ListaSocioConsulta(Logica _log)
+        public static void ListadoSolicitudesdeConsulta(Logica _log)
         {
-            Console.Clear();
-
-            List<Solicitud> _listaSolicitud = _log.ListaSolicitud();
-            if (_listaSolicitud.Count == 0)
+            try
             {
-                Console.WriteLine("No hay consultas medicas para listar - Para listar Agregue alguna");
+                Console.Clear();
+                Console.WriteLine("---------------------------------------------------------");
+                Console.WriteLine("               Listado Solicitudes de Consultas");
+                Console.WriteLine("---------------------------------------------------------\n\n");
+                //pedir numero de consultorio
+
+                Console.Write("Ingrese el numero de consultorio: ");
+                int numconsultorio = Convert.ToInt32(Console.ReadLine());
+                Solicitud unaS = _log.BusSolCons(numconsultorio);
+                if (unaS == null)
+                {
+                    Console.WriteLine("No hay numero de consultorio en esta solicitud - No se sigue con el listado");
+                    Console.ReadLine();
+                    return;  //me voy del listar
+                }
+                int mostrar = _log.CantidadSolicitudes(unaS);
+                Console.WriteLine("Hay " + mostrar + " " + "cantidad de solicitudes: " + unaS.Paciente.NombrePaciente);
                 Console.ReadLine();
-                return;
             }
-            foreach (Solicitud S in _listaSolicitud)
+            catch (Exception ex)
             {
-                Console.WriteLine(S.ToString());
+                Console.WriteLine(ex.Message);
+                Console.ReadLine();
             }
-
-            Console.ReadLine();
         }
 
+        
     }
 }

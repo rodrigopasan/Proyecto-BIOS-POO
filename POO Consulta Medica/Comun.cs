@@ -9,6 +9,7 @@ namespace POO_Consulta_Medica
     class Comun: Consulta
     {
         private bool _TieneEnfermera;
+        private string _tipEnfermera;
 
         public bool TieneEnfermera
         {
@@ -16,15 +17,20 @@ namespace POO_Consulta_Medica
             set { _TieneEnfermera = value; }
         }
         //Constructor
-        public Comun(int _NumeroConsultorio, DateTime _FechaHora, string _NombreMedico, int _CantidadNumeros, bool _Asistencia, bool _TieneEnfermera)
-           : base(_NumeroConsultorio, _FechaHora, _NombreMedico, _CantidadNumeros,  _Asistencia)
+        public Comun(int _NumeroConsulta, int _NumeroConsultorio, DateTime _FechaHora, string _NombreMedico, int _CantidadNumeros, bool _TieneEnfermera)
+           : base(_NumeroConsulta, _NumeroConsultorio, _FechaHora, _NombreMedico, _CantidadNumeros)
         {
-            _TieneEnfermera = TieneEnfermera;
+            TieneEnfermera = _TieneEnfermera;
+            if (_TieneEnfermera == false)
+                _tipEnfermera = "No";
+            else
+                _tipEnfermera = "Si";
+
         }
 
         public override string ToString()
         {
-            return $"Consulta Comun ({NumeroConsultorio} - {FechaHora} - Dr {NombreMedico} - {CantidadNumeros} - {Asistencia} - {_TieneEnfermera})";
+            return $"Comun {NumeroConsulta}, consultorio: {NumeroConsultorio}, fecha: {FechaHora}, Dr: {NombreMedico}, numero: {CantidadNumeros}, enfermera?: {_tipEnfermera}";
         }
     }
 }

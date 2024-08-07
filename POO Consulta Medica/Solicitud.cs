@@ -9,11 +9,13 @@ namespace POO_Consulta_Medica
     class Solicitud
     {
         private int _NumeroInterno;
-        private static int _Contador = 1;
+        private static int _Contador = 0;
         private bool _Asistencia;
-        private DateTime _FechaSolicitud = DateTime.Today;      
+        private DateTime _FechaSolicitud = DateTime.Today;
+        private string tipAsistencia;
         Paciente _Paciente;
         Consulta _Consulta;
+
 
         public int NumeroInterno
         {
@@ -21,7 +23,7 @@ namespace POO_Consulta_Medica
         }
 
         public bool Asistencia
-        {
+        { 
             get { return _Asistencia; }
             set { _Asistencia = value; }
         }
@@ -59,13 +61,19 @@ namespace POO_Consulta_Medica
         }
 
         //Cosntructor comun
-        public Solicitud(DateTime _FechaSolicitud, bool _Asistencia ,Paciente unP, Consulta unaC)
+        public Solicitud(int _NumeroInterno, DateTime _FechaSolicitud, bool _Asistencia ,Paciente unP, Consulta unaC)
         {
 
-            FechaSolicitud = _FechaSolicitud;
+            this._FechaSolicitud = DateTime.Today;
             Asistencia = _Asistencia;
             Paciente = unP;
             Consulta = unaC;
+
+            
+            if (_Asistencia == false)
+                tipAsistencia = "No";
+            else
+                tipAsistencia = "Si";
 
             Solicitud._Contador++;
             this._NumeroInterno = Solicitud._Contador;
@@ -73,7 +81,7 @@ namespace POO_Consulta_Medica
 
         public override string ToString()
         {
-            return ($"El numero de consulta: {Consulta.NumeroConsultorio} + la fecha de solicitud: {_FechaSolicitud} + concurrio: {_Asistencia} + el paciente es: {_Paciente} + numero interno: {_NumeroInterno}");
+            return ($"Numero: {_NumeroInterno}, consultorio: {_Consulta.NumeroConsultorio}, fecha: {DateTime.Today}, concurrio: {tipAsistencia}, {_Paciente}");
         }
 
     }

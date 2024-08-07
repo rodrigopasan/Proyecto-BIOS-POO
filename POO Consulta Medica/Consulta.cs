@@ -9,14 +9,19 @@ namespace POO_Consulta_Medica
     public abstract class Consulta
     {
         // hacer caluclo o formula del Numero Interno
+        private int _NumeroConsulta;
         private int _NumeroConsultorio;
         private DateTime _FechaHora;
         private string _NombreMedico;
         private int _CantidadNumeros;
-        private bool _Asistencia;
+        private static int _Contador = 0;
+
 
         //Asociacion entre paciente y consulta
-        
+        public int NumeroConsulta
+        {
+            get { return _NumeroConsulta; }
+        }
 
         //atributos
         public int NumeroConsultorio
@@ -60,7 +65,7 @@ namespace POO_Consulta_Medica
             get { return _CantidadNumeros; }
             set
             {
-                if (value > 0)
+                if (value > 0 && value < 10)
                 {
                     _CantidadNumeros = value;
                 }
@@ -70,23 +75,20 @@ namespace POO_Consulta_Medica
                 }
             }
         }
-       
-        public bool Asistencia
-        {
-            get { return _Asistencia; }
-            set { _Asistencia = value; }
-        }
+
 
 
         //Constructor Completo
-        public Consulta(int _NumeroConsultorio, DateTime _FechaHora, string _NombreMedico, int _CantidadNumeros, bool _Asistencia )
+        public Consulta(int _NumeroConsulta, int _NumeroConsultorio, DateTime _FechaHora, string _NombreMedico, int _CantidadNumeros )
         
         {
             NumeroConsultorio = _NumeroConsultorio;
             FechaHora = _FechaHora;
             NombreMedico = _NombreMedico;
             CantidadNumeros = _CantidadNumeros;
-            Asistencia = _Asistencia;
+
+            Consulta._Contador++;
+            this._NumeroConsulta = Consulta._Contador;
             
         }
 
@@ -103,7 +105,7 @@ namespace POO_Consulta_Medica
         public override string ToString()
         {
 
-            return ($"Consulta en consultorio: {_NumeroConsultorio } Fecha y hora: {_FechaHora.ToShortDateString() } Médico: {_NombreMedico} Cantidad de números: {_CantidadNumeros} Asistencia {_Asistencia}");
+            return ($"Consulta: {_NumeroConsulta}, consultorio: {_NumeroConsultorio }, Fecha y hora: {_FechaHora.ToShortDateString() }, Médico: {_NombreMedico}, números: {_CantidadNumeros}");
         }
         
     }
