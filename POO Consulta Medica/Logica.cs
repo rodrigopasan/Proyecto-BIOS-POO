@@ -65,11 +65,11 @@ namespace POO_Consulta_Medica
             else
                 return false;
         }
-        public Consulta BuscarConsulta(int pNumeroConsultorio)
+        public Consulta BuscarConsulta(int pNumeroConsulta)
         {
             foreach (Consulta C in _listaConsulta) //Va a recorrer las entradas de Consultas
             {
-                if (C.NumeroConsultorio == pNumeroConsultorio)
+                if (C.NumeroConsultorio == pNumeroConsulta)
                     return (C);
             }//fin foreach
             return null;
@@ -77,9 +77,9 @@ namespace POO_Consulta_Medica
 
         public bool AltaConsultaComun(Consulta unaConsulta)
         {
-            Consulta _buscoConsulta = BuscarConsulta(unaConsulta.NumeroConsultorio);
+            Consulta _buscoConsulta = BuscarConsulta(unaConsulta.NumeroConsulta);
             if (_buscoConsulta != null)
-                if (unaConsulta.NumeroConsultorio == _buscoConsulta.NumeroConsultorio)
+                if (unaConsulta.NumeroConsulta == _buscoConsulta.NumeroConsulta)
                 {
                     // Se verifica que existan dos horas de diferencia para la fecha solicitada
                     // Se utiliza la función DiferenciaHoras y se le pasa como parametro "_buscoConsultorio.FechaHora"
@@ -101,9 +101,9 @@ namespace POO_Consulta_Medica
 
         public bool AltaConsultaEspecialista(Consulta unaConsultaEspecialista)
         {
-            Consulta _buscoConsulta = BuscarConsulta(unaConsultaEspecialista.NumeroConsultorio);
+            Consulta _buscoConsulta = BuscarConsulta(unaConsultaEspecialista.NumeroConsulta);
             if (_buscoConsulta != null)
-                if (unaConsultaEspecialista.NumeroConsultorio == _buscoConsulta.NumeroConsultorio)
+                if (unaConsultaEspecialista.NumeroConsulta == _buscoConsulta.NumeroConsulta)
                 {
                     // Se verifica que existan dos horas de diferencia para la fecha solicitada
                     // Se utiliza la función DiferenciaHoras y se le pasa como parametro "_buscoConsultorio.FechaHora"

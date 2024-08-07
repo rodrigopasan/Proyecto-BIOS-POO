@@ -310,9 +310,9 @@ namespace POO_Consulta_Medica
                 Console.ReadLine();
 
 
-                Console.Write("Ingrese numero de consultorio: ");
-                int numconsultorio = Convert.ToInt32(Console.ReadLine());
-                Consulta unaC = _log.BuscarConsulta(numconsultorio);
+                Console.Write("Ingrese numero de consulta: ");
+                int numconsulta = Convert.ToInt32(Console.ReadLine());
+                Consulta unaC = _log.BuscarConsulta(numconsulta);
                 if (unaC == null)
                 {
                     Console.WriteLine("No hay numero de consultorio no existe");
@@ -324,10 +324,7 @@ namespace POO_Consulta_Medica
                     Console.WriteLine(unaC.ToString());
                 }
                 Console.ReadLine();
-
-                Console.Write("Ingrese el numero de consulta: ");
-                int _numeroconsulta = Convert.ToInt32(Console.ReadLine().Trim());
-                
+            
                 int _numerointerno = 0;
 
 
