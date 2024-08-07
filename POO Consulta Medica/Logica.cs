@@ -155,17 +155,6 @@ namespace POO_Consulta_Medica
             return _listaConsulta;
         }
 
-        public List<Consulta> ListaConsultaPorConsultorio(Consulta unConsultorio)
-        {
-            List<Consulta> _resultado = new List<Consulta>();
-            foreach(Consulta item in _listaConsulta)
-            {
-                if (unConsultorio.NumeroConsulta == item.NumeroConsulta)
-                    _resultado.Add(item);
-            }
-            return _resultado;
-        }
-
         //obtener una consulta en una posicion x en mi repositorio
         public Consulta Item(int pos)
         {
