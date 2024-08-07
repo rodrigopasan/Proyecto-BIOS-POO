@@ -446,9 +446,9 @@ namespace POO_Consulta_Medica
                 Console.WriteLine("---------------------------------------------------------\n\n");
                 //pedir numero de consultorio
 
-                Console.Write("Ingrese el numero de consultorio: ");
-                int numconsultorio = Convert.ToInt32(Console.ReadLine());
-                Solicitud unaS = _log.BusSolCons(numconsultorio);
+                Console.Write("Ingrese el numero de consulta: ");
+                int numconsulta = Convert.ToInt32(Console.ReadLine());
+                Solicitud unaS = _log.BusSolCons(numconsulta);
                 if (unaS == null)
                 {
                     Console.WriteLine("No hay numero de consultorio en esta solicitud - No se sigue con el listado");

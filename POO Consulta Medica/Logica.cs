@@ -160,7 +160,7 @@ namespace POO_Consulta_Medica
             List<Consulta> _resultado = new List<Consulta>();
             foreach(Consulta item in _listaConsulta)
             {
-                if (unConsultorio.NumeroConsultorio == item.NumeroConsultorio)
+                if (unConsultorio.NumeroConsulta == item.NumeroConsulta)
                     _resultado.Add(item);
             }
             return _resultado;
@@ -175,11 +175,11 @@ namespace POO_Consulta_Medica
                 throw new Exception("Indice de Conjunto Invalido");
         }
        
-        public Solicitud BusSolCons(int numConsultorio)
+        public Solicitud BusSolCons(int numConsulta)
         {
             foreach(Solicitud S in _listaSolicitud)
             {
-                if (S.Consulta.NumeroConsultorio == numConsultorio)
+                if (S.Consulta.NumeroConsulta == numConsulta)
                     return S;
             }
             return null;
