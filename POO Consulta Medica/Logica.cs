@@ -184,5 +184,19 @@ namespace POO_Consulta_Medica
             }
             return contador;
         }
+        public bool ActualizarSolicitud(Solicitud solicitudActualizada)
+        {
+            for (int i = 0; i < _listaSolicitud.Count; i++)
+            {
+                if (_listaSolicitud[i].NumeroInterno == solicitudActualizada.NumeroInterno)
+                {
+                    _listaSolicitud[i] = solicitudActualizada; // Actualiza la solicitud en la lista
+                    return true;
+                }
+            }
+            return false;
+        }
+
     }
+
 }
