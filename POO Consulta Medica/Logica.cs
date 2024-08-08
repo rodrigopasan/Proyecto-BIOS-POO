@@ -197,6 +197,23 @@ namespace POO_Consulta_Medica
             return false;
         }
 
+        public List<Solicitud> ListadoSolicitudesPaciente(Paciente paciente)
+        {
+            List<Solicitud> solicitudesPaciente = new List<Solicitud>();
+
+            foreach (Solicitud solicitud in _listaSolicitud)
+            {
+                if (solicitud.Paciente.NumeroCedula == paciente.NumeroCedula)
+                {
+                    solicitudesPaciente.Add(solicitud);
+                }
+            }
+
+            return solicitudesPaciente;
+        }
+
+
     }
+
 
 }

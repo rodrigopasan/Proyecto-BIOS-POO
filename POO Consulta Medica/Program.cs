@@ -77,7 +77,7 @@ namespace POO_Consulta_Medica
                     ListadoConsulta(_log);
                     break;
                 case 8:
-                    //Listado solicitudes de consulta paciente(_log);
+                    ListadoSolicitudesConsultaPaciente(_log);
                     break;
                 case 9:
                     Console.Clear();
@@ -529,6 +529,51 @@ namespace POO_Consulta_Medica
                 Console.ReadLine();
             }
         }
+        public static void ListadoSolicitudesConsultaPaciente(Logica _log)
+        {
+            Console.Clear();
+            Console.WriteLine("---------------------------------------------------------");
+            Console.WriteLine("               Listado de Solicitudes de Consulta Paciente");
+            Console.WriteLine("---------------------------------------------------------\n\n");
+
+            try
+            {
+                // número de cédula del paciente
+                Console.Write("Ingrese el número de cédula del paciente: ");
+                int numerocedula = Convert.ToInt32(Console.ReadLine().Trim());
+
+                // Busco paciente
+                Paciente paciente = _log.BuscarPaciente(numerocedula);
+                if (paciente == null)
+                {
+                    Console.WriteLine("No se encontró el paciente con la cédula proporcionada.");
+                    Console.ReadLine();
+                    return;
+                }
+
+                //  solicitudes del paciente
+                List<Solicitud> solicitudes = _log.ListadoSolicitudesPaciente(paciente);
+                if (solicitudes.Count == 0)
+                {
+                    Console.WriteLine("No hay solicitudes de consulta para el paciente.");
+                }
+                else
+                {
+                    foreach (Solicitud solicitud in solicitudes)
+                    {
+                        Console.WriteLine(solicitud.ToString());
+                    }
+                }
+
+                Console.ReadLine();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.ReadLine();
+            }
+        }
+
 
 
     }
