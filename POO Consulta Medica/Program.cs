@@ -68,7 +68,7 @@ namespace POO_Consulta_Medica
                     AltaSolicitud(_log);
                     break;
                 case 5:
-                    //MarcarAsistenciaSolicitudNumero(_log);
+                    MarcarAsistenciaSolicitudNumero(_log);
                     break;
                 case 6:
                     ListadoSolicitudesdeConsulta(_log);
@@ -465,7 +465,71 @@ namespace POO_Consulta_Medica
                 Console.ReadLine();
             }
         }
+        public static void MarcarAsistenciaSolicitudNumero(Logica _log)
+        {
+            try
+            {
+                Console.Clear();
+                Console.WriteLine("---------------------------------------------------------");
+                Console.WriteLine("               Marcar Asistencia Solicitud Número");
+                Console.WriteLine("---------------------------------------------------------\n\n");
 
-        
+                //  número de solicitud
+                Console.Write("Ingrese el número de solicitud: ");
+                int numeroSolicitud = Convert.ToInt32(Console.ReadLine().Trim());
+
+                // Buscar la solicitud
+                Solicitud solicitud = _log.BuscarSolicitud(numeroSolicitud);
+                if (solicitud == null)
+                {
+                    Console.WriteLine("No se encontró una solicitud con el número proporcionado.");
+                    Console.ReadLine();
+                    return;
+                }
+
+                // información actual
+                Console.WriteLine("Solicitud Encontrada:");
+                Console.WriteLine(solicitud.ToString());
+                Console.WriteLine("Estado de asistencia actual: " + (solicitud.Asistencia ? "Asistió" : "No asistió"));
+
+                // Preguntar si asistió
+                Console.Write("¿El paciente asistió? (S/N): ");
+                string respuesta = Console.ReadLine().Trim().ToUpper();
+
+                if (respuesta == "S")
+                {
+                    solicitud.Asistencia = true;
+                }
+                else if (respuesta == "N")
+                {
+                    solicitud.Asistencia = false;
+                }
+                else
+                {
+                    Console.WriteLine("Respuesta no válida. No se actualizará el estado.");
+                    Console.ReadLine();
+                    return;
+                }
+
+                // Actualizar la solicitud
+                if (_log.ActualizarSolicitud(solicitud))
+                {
+                    Console.WriteLine("Asistencia actualizada correctamente.");
+                }
+                else
+                {
+                    Console.WriteLine("Error al actualizar la asistencia.");
+                }
+
+                Console.ReadLine();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.ReadLine();
+            }
+        }
+
+
     }
 }
