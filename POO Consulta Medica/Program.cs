@@ -443,7 +443,7 @@ namespace POO_Consulta_Medica
                 Console.Clear();
                 Console.WriteLine("---------------------------------------------------------");
                 Console.WriteLine("               Listado Solicitudes de Consultas");
-                Console.WriteLine("---------------------------------------------------------\n\n");
+                Console.WriteLine("---------------------------------------------------------");
                 //pedir numero de consultorio
 
                 Console.Write("Ingrese el numero de consulta: ");
@@ -506,7 +506,7 @@ namespace POO_Consulta_Medica
                 }
                 else
                 {
-                    Console.WriteLine("Respuesta no válida. No se actualizará el estado.");
+                    Console.WriteLine("Respuesta no válida");
                     Console.ReadLine();
                     return;
                 }
@@ -534,15 +534,20 @@ namespace POO_Consulta_Medica
             Console.Clear();
             Console.WriteLine("---------------------------------------------------------");
             Console.WriteLine("               Listado de Solicitudes de Consulta Paciente");
-            Console.WriteLine("---------------------------------------------------------\n\n");
+            Console.WriteLine("---------------------------------------------------------");
 
             try
             {
-                // número de cédula del paciente
+                // Número de cédula del paciente
                 Console.Write("Ingrese el número de cédula del paciente: ");
-                int numerocedula = Convert.ToInt32(Console.ReadLine().Trim());
+                if (!int.TryParse(Console.ReadLine().Trim(), out int numerocedula))
+                {
+                    Console.WriteLine("Número de cédula inválido.");
+                    Console.ReadLine();
+                    return;
+                }
 
-                // Busco paciente
+                // Buscar paciente
                 Paciente paciente = _log.BuscarPaciente(numerocedula);
                 if (paciente == null)
                 {
@@ -551,15 +556,46 @@ namespace POO_Consulta_Medica
                     return;
                 }
 
-                //  solicitudes del paciente
+                // filtro de solicitudes
+                Console.WriteLine("Seleccione el tipo de solicitudes a mostrar:");
+                Console.WriteLine("1. Solicitudes asistidas");
+                Console.WriteLine("2. Solicitudes no asistidas");
+                Console.Write("Ingrese el número de opción: ");
+                string opcion = Console.ReadLine().Trim();
+
                 List<Solicitud> solicitudes = _log.ListadoSolicitudesPaciente(paciente);
                 if (solicitudes.Count == 0)
                 {
                     Console.WriteLine("No hay solicitudes de consulta para el paciente.");
+                    Console.ReadLine();
+                    return;
+                }
+
+                // según la opción elegida
+                List<Solicitud> solicitudesFiltradas;
+                switch (opcion)
+                {
+                    case "1":
+                        solicitudesFiltradas = solicitudes.Where(s => s.Asistencia).ToList();
+                        Console.WriteLine("Solicitudes asistidas:");
+                        break;
+                    case "2":
+                        solicitudesFiltradas = solicitudes.Where(s => !s.Asistencia).ToList();
+                        Console.WriteLine("Solicitudes no asistidas:");
+                        break;
+                    default:
+                        Console.WriteLine("Opción no válida. No se mostrarán resultados.");
+                        Console.ReadLine();
+                        return;
+                }
+
+                if (solicitudesFiltradas.Count == 0)
+                {
+                    Console.WriteLine("No hay solicitudes que coincidan con el criterio seleccionado.");
                 }
                 else
                 {
-                    foreach (Solicitud solicitud in solicitudes)
+                    foreach (Solicitud solicitud in solicitudesFiltradas)
                     {
                         Console.WriteLine(solicitud.ToString());
                     }
@@ -569,7 +605,7 @@ namespace POO_Consulta_Medica
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine("Se produjo un error: " + ex.Message);
                 Console.ReadLine();
             }
         }
