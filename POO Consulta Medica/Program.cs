@@ -196,18 +196,85 @@ namespace POO_Consulta_Medica
 
                     int _numeroconsulta = 0;
 
+                Console.Write("Ingrese la fecha de su consulta (día/mes/año): ");
+                DateTime FSolicitada = Convert.ToDateTime(Console.ReadLine());
 
-                    Console.Write("Número de consultorio: " );
-                    int _numeroconsultorio = Convert.ToInt32(Console.ReadLine().Trim());
-                     
-                    Console.Write("Ingrese la fecha y hora de consulta: ");
-                    DateTime _fechaconsulta = Convert.ToDateTime(Console.ReadLine());
+                Console.Write("Ingrese el número del consultorio (1 al 40): ");
+                int CSolicitado = Convert.ToInt32(Console.ReadLine().Trim());
+                // Busco los registros de consultas
+                List<Consulta> _lista = _log.ListaConsulta();
 
-                    Console.Write("Ingrese el nombre del medico: ");
+                Console.Write($"\nConsultas para la fecha: {FSolicitada.Day}/{FSolicitada.Month}/{FSolicitada.Year} Consultorio: {CSolicitado}\n");
+                Console.Write($"Si existen horarios ocupados se mostrarán aquí\n");
+                if (_lista.Count != 0)
+                {
+                    foreach (Consulta C in _lista)
+                    {
+                        if (FSolicitada.Date == C.FechaHora.Date && CSolicitado == C.NumeroConsultorio)
+                        {
+                            Console.Write($"->  {C.FechaHora.Hour}:00   -  ");
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write($"OCUPADO \n");
+                            Console.ResetColor();
+                        }
+                    }
+
+                }
+                Console.WriteLine($"\n\nIngrese el horario (1 al 9): \n 1 - 6:00 AM \n 2 - 8:00 AM \n 3 - 10:00 AM \n 4 - 12:00 PM \n 5 - 14:00 PM \n 6 - 16:00 PM \n 7 - 18:00 PM \n 8 - 20:00 PM \n 9 - 22:00 PM");
+                Console.Write("Horario preferido: ");
+                        string _opcion = "0";
+                        _opcion = Console.ReadLine().Trim();
+                        DateTime _FechayHora = FSolicitada;
+                        switch (_opcion)
+                        {
+                            case "1":
+                            _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 6, 0, 0);
+                                break;
+                            case "2":
+                            _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 8, 0, 0);
+                            break;
+                            case "3":
+                            _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 10, 0, 0);
+                            break;
+                            case "4":
+                            _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 12, 0, 0);
+                            break;
+                            case "5":
+                            _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 14, 0, 0);
+                            break;
+                            case "6":
+                            _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 16, 0, 0);
+                            break;
+                            case "7":
+                            _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 18, 0, 0);
+                            break;
+                            case "8":
+                            _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 20, 0, 0);
+                            break;
+                            case "9":
+                            _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 22, 0, 0);
+                            break;
+
+                        default:
+                                Console.WriteLine("Error - Seleccione una opcion del 1 al 9");
+                                Console.ReadLine();
+                                break;
+                        }
+
+                //Console.Write("Número de consultorio: " );
+                // int _numeroconsultorio = Convert.ToInt32(Console.ReadLine().Trim());
+                int _numeroconsultorio = CSolicitado;
+                   // Console.Write("Ingrese la fecha y hora de consulta: ");
+                DateTime _fechaconsulta = _FechayHora;
+
+
+
+
+                Console.Write("Ingrese el nombre del medico: ");
                     string _nombremedico = Console.ReadLine().Trim();
 
-                    Console.Write("Ingrese la cantidad de numeros: ");
-                    int _cantdidadnumero = Convert.ToInt32(Console.ReadLine().Trim());
+                    //Console.Write("Ingrese la cantidad de numeros: ");
+                    int _cantdidadnumero = 9;
 
                     bool _tieneenfermera = false;
                     Console.Write("Tiene enfermera?: " + _tieneenfermera);
@@ -540,7 +607,8 @@ namespace POO_Consulta_Medica
             {
                 // Número de cédula del paciente
                 Console.Write("Ingrese el número de cédula del paciente: ");
-                if (!int.TryParse(Console.ReadLine().Trim(), out int numerocedula))
+               int _numerocedula = Convert.ToInt32(Console.ReadLine());
+                if (!int.TryParse(Console.ReadLine().Trim(), out _numerocedula))
                 {
                     Console.WriteLine("Número de cédula inválido.");
                     Console.ReadLine();
@@ -548,7 +616,7 @@ namespace POO_Consulta_Medica
                 }
 
                 // Buscar paciente
-                Paciente paciente = _log.BuscarPaciente(numerocedula);
+                Paciente paciente = _log.BuscarPaciente(_numerocedula);
                 if (paciente == null)
                 {
                     Console.WriteLine("No se encontró el paciente con la cédula proporcionada.");
