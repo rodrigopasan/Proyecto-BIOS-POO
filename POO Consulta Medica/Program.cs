@@ -11,9 +11,10 @@ namespace POO_Consulta_Medica
     {
         static void Main(string[] args)
         {
-            //repositorio
+            //Repositorio
             Logica _log = new Logica();
             int opcionMenu = 0;
+            // Bucle principal del menú, se ejecuta hasta que se seleccione la opción de salir (9)
             while (opcionMenu != 9)
             {
                 Menu();
@@ -22,7 +23,7 @@ namespace POO_Consulta_Medica
             }
 
         }
-
+        // Método para mostrar el menú principal
         public static void Menu()
         {
             Console.Clear();
@@ -42,7 +43,7 @@ namespace POO_Consulta_Medica
             Console.WriteLine("9 - Salir");
 
         }
-
+        // Método para capturar la opción seleccionada por el usuario
         public static int SeleccionoOpcionMenu()
         {
             Console.WriteLine();
@@ -50,7 +51,7 @@ namespace POO_Consulta_Medica
 
             return Convert.ToInt32(Console.ReadLine().Trim());
         }
-
+        // Método para procesar la opción seleccionada del menú
         public static void procesoMenu(Logica _log, int opcionMenu)
         {
             switch (opcionMenu)
@@ -80,6 +81,7 @@ namespace POO_Consulta_Medica
                     ListadoSolicitudesConsultaPaciente(_log);
                     break;
                 case 9:
+                    // Mensaje al finalizar el programa
                     Console.Clear();
                     Console.WriteLine("---------------------------------------------------------");
                     Console.WriteLine("                Final del Programa");
@@ -87,11 +89,12 @@ namespace POO_Consulta_Medica
                     Console.ReadLine();
                     break;
                 default:
-                    Console.WriteLine("Error - Opcion de Menu Invalida");
+                    Console.WriteLine("Error - Opcion de Menu Inválida");
                     Console.ReadLine();
                     break;
             }
         }
+        // Método para el mantenimiento de pacientes (alta, modificación o eliminación)
         public static void MantenimientoPaciente(Logica _log)
         {
             Console.Clear();
@@ -101,14 +104,14 @@ namespace POO_Consulta_Medica
 
             try
             {
-                //numero de cedula
+                // Solicitar el número de cédula del paciente
                 Console.Write("Inserte número de cedula: ");
                 int _numerocedula = Convert.ToInt32(Console.ReadLine().Trim());
 
-                //busco por cedula
+                // Buscar al paciente por cédula
                 Paciente unP = _log.BuscarPaciente(_numerocedula);
 
-                //si no encuentra la cedula lo crea
+                // Si no se encuentra el paciente, se da de alta uno nuevo
                 if (unP == null)
                 {
                     AltaPaciente(_numerocedula, _log);
@@ -117,7 +120,7 @@ namespace POO_Consulta_Medica
                 {
                     string _opcion = "0";
                     bool _bandera = false;
-                    //se crea una bandera para que corte el ciclo del while con su menu
+                    //Se crea una bandera para que corte el ciclo del while con su menu
                     while (!_bandera)
                     {
                         Console.WriteLine("\n\n");
@@ -154,7 +157,7 @@ namespace POO_Consulta_Medica
             }
         }
 
-
+        // Método para dar de alta un nuevo paciente
         public static void AltaPaciente(int _numerocedula, Logica _log)
         {
             string _nombrepaciente = "";
@@ -167,6 +170,7 @@ namespace POO_Consulta_Medica
 
             try
             {
+                // Crear una nueva entrada de Paciente y lo agrega
                 Paciente unP = new Paciente(_nombrepaciente, _fechanacimiento, _numerocedula);
                 if (_log.AltaPaciente(unP))
                 {
@@ -184,6 +188,7 @@ namespace POO_Consulta_Medica
                 Console.ReadLine();
             }
         }
+        // Método para dar de alta una consulta común
         public static void AltaConsultaComun(Logica _log)
         {
             try
@@ -194,18 +199,20 @@ namespace POO_Consulta_Medica
                 Console.WriteLine("---------------------------------------------------------\n\n");
 
 
-                    int _numeroconsulta = 0;
-
+                int _numeroconsulta = 0;
                 Console.Write("Ingrese la fecha de su consulta (día/mes/año): ");
                 DateTime FSolicitada = Convert.ToDateTime(Console.ReadLine());
 
                 Console.Write("Ingrese el número del consultorio (1 al 40): ");
                 int CSolicitado = Convert.ToInt32(Console.ReadLine().Trim());
-                // Busco los registros de consultas
+
+                // Buscar las consultas ya registradas para verificar disponibilidad
                 List<Consulta> _lista = _log.ListaConsulta();
 
                 Console.Write($"\nConsultas para la fecha: {FSolicitada.Day}/{FSolicitada.Month}/{FSolicitada.Year} Consultorio: {CSolicitado}\n");
                 Console.Write($"Si existen horarios ocupados se mostrarán aquí\n");
+
+                //Mostrar horarios ocupados si hay coincidencias
                 if (_lista.Count != 0)
                 {
                     foreach (Consulta C in _lista)
@@ -220,11 +227,13 @@ namespace POO_Consulta_Medica
                     }
 
                 }
+                //Solicitar el horario preferido
                 Console.WriteLine($"\n\nIngrese el horario (1 al 9): \n 1 - 6:00 AM \n 2 - 8:00 AM \n 3 - 10:00 AM \n 4 - 12:00 PM \n 5 - 14:00 PM \n 6 - 16:00 PM \n 7 - 18:00 PM \n 8 - 20:00 PM \n 9 - 22:00 PM");
                 Console.Write("Horario preferido: ");
                         string _opcion = "0";
                         _opcion = Console.ReadLine().Trim();
                         DateTime _FechayHora = FSolicitada;
+                //Asignar la hora según la opción seleccionada
                         switch (_opcion)
                         {
                             case "1":
@@ -260,26 +269,20 @@ namespace POO_Consulta_Medica
                                 Console.ReadLine();
                                 break;
                         }
+                    // Dato de Numero de Consultorio
+                    int _numeroconsultorio = CSolicitado;
+                    DateTime _fechaconsulta = _FechayHora;
 
-                //Console.Write("Número de consultorio: " );
-                // int _numeroconsultorio = Convert.ToInt32(Console.ReadLine().Trim());
-                int _numeroconsultorio = CSolicitado;
-                   // Console.Write("Ingrese la fecha y hora de consulta: ");
-                DateTime _fechaconsulta = _FechayHora;
-
-
-
-
-                Console.Write("Ingrese el nombre del medico: ");
+                    Console.Write("Ingrese el nombre del medico: ");
                     string _nombremedico = Console.ReadLine().Trim();
-
-                    //Console.Write("Ingrese la cantidad de numeros: ");
+                
                     int _cantdidadnumero = 9;
 
                     bool _tieneenfermera = false;
                     Console.Write("Tiene enfermera?: " + _tieneenfermera);
                     Console.ReadLine();
-
+                    
+                    // Datos que se envían para validar previo a la carga de la consulta
                     Comun unaC = new Comun(_numeroconsulta, _numeroconsultorio, _fechaconsulta, _nombremedico, _cantdidadnumero, _tieneenfermera);
 
                     //inserto consuta comun nueva
@@ -310,22 +313,85 @@ namespace POO_Consulta_Medica
                 Console.WriteLine("               Agregar Consulta Especialista");
                 Console.WriteLine("---------------------------------------------------------\n\n");
 
- 
-                    int _numeroconsulta = 0;
 
+                int _numeroconsulta = 0;
+                Console.Write("Ingrese la fecha de su consulta (día/mes/año): ");
+                DateTime FSolicitada = Convert.ToDateTime(Console.ReadLine());
 
-                    Console.Write("Agregar consulta, número de consultorio: ");
-                    int _numeroconsultorio = Convert.ToInt32(Console.ReadLine().Trim());
+                Console.Write("Ingrese el número del consultorio (1 al 40): ");
+                int CSolicitado = Convert.ToInt32(Console.ReadLine().Trim());
 
-                    Console.Write("Ingrese la fecha y hora de consulta: ");
-                    DateTime _fechaconsulta = Convert.ToDateTime(Console.ReadLine());
+                // Buscar las consultas ya registradas para verificar disponibilidad
+                List<Consulta> _lista = _log.ListaConsulta();
 
+                Console.Write($"\nConsultas para la fecha: {FSolicitada.Day}/{FSolicitada.Month}/{FSolicitada.Year} Consultorio: {CSolicitado}\n");
+                Console.Write($"Si existen horarios ocupados se mostrarán aquí\n");
+
+                //Mostrar horarios ocupados si hay coincidencias
+                if (_lista.Count != 0)
+                {
+                    foreach (Consulta C in _lista)
+                    {
+                        if (FSolicitada.Date == C.FechaHora.Date && CSolicitado == C.NumeroConsultorio)
+                        {
+                            Console.Write($"->  {C.FechaHora.Hour}:00   -  ");
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write($"OCUPADO \n");
+                            Console.ResetColor();
+                        }
+                    }
+
+                }
+                //Solicitar el horario preferido
+                Console.WriteLine($"\n\nIngrese el horario (1 al 9): \n 1 - 6:00 AM \n 2 - 8:00 AM \n 3 - 10:00 AM \n 4 - 12:00 PM \n 5 - 14:00 PM \n 6 - 16:00 PM \n 7 - 18:00 PM \n 8 - 20:00 PM \n 9 - 22:00 PM");
+                Console.Write("Horario preferido: ");
+                string _opcion = "0";
+                _opcion = Console.ReadLine().Trim();
+                DateTime _FechayHora = FSolicitada;
+                //Asignar la hora según la opción seleccionada
+                switch (_opcion)
+                {
+                    case "1":
+                        _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 6, 0, 0);
+                        break;
+                    case "2":
+                        _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 8, 0, 0);
+                        break;
+                    case "3":
+                        _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 10, 0, 0);
+                        break;
+                    case "4":
+                        _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 12, 0, 0);
+                        break;
+                    case "5":
+                        _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 14, 0, 0);
+                        break;
+                    case "6":
+                        _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 16, 0, 0);
+                        break;
+                    case "7":
+                        _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 18, 0, 0);
+                        break;
+                    case "8":
+                        _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 20, 0, 0);
+                        break;
+                    case "9":
+                        _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 22, 0, 0);
+                        break;
+
+                    default:
+                        Console.WriteLine("Error - Seleccione una opcion del 1 al 9");
+                        Console.ReadLine();
+                        break;
+                }
+                    // Dato de Numero de Consultorio
+                    int _numeroconsultorio = CSolicitado;
+                    DateTime _fechaconsulta = _FechayHora;
+                
                     Console.Write("Ingrese el nombre del medico: ");
                     string _nombremedico = Console.ReadLine().Trim();
 
-                    Console.Write("Ingrese la cantidad de numeros: ");
-                    int _cantdidadnumero = Convert.ToInt32(Console.ReadLine().Trim());
-
+                    int _cantdidadnumero = 9;
                     Console.Write("Ingrese la especialidad: ");
                     string _especialidad = Console.ReadLine().Trim();
 
