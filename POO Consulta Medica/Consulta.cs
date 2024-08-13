@@ -65,7 +65,7 @@ namespace POO_Consulta_Medica
             get { return _CantidadNumeros; }
             set
             {
-                if (value > 0 && value < 10)
+                if (value > 0 && value <= 10)
                 {
                     _CantidadNumeros = value;
                 }
