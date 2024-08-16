@@ -18,10 +18,17 @@ namespace POO_Consulta_Medica
             get { return _NombrePaciente; }
             set
             {
+                var listacaracteres = new string[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "@", "#", "$", "%", "/", "(", ")", "=", "?", "¿", "!", "¡", "|" };
+                foreach (var c in listacaracteres)
+                {
+                    value = value.Replace(c, string.Empty);
+                }
                 if (value.Trim().Length > 5)
+                {          
                     _NombrePaciente = value;
+                }
                 else
-                    throw new Exception("Se debe saber el nombre compelto del alumno");
+                    throw new Exception("El nombre completo del paciente debe ser mayor de 5 letras...");
            } 
         }
 

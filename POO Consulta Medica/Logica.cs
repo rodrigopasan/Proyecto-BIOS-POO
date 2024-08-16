@@ -210,7 +210,11 @@ namespace POO_Consulta_Medica
 
             return solicitudesPaciente;
         }
-
+              
+        public List<Consulta> OrdenarFechas(List<Consulta> listaConsultas)
+        {
+            return listaConsultas.OrderBy(c => c.FechaHora).ToList();
+        }
 
     }
 

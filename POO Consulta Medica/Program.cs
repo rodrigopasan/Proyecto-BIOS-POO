@@ -47,9 +47,15 @@ namespace POO_Consulta_Medica
         public static int SeleccionoOpcionMenu()
         {
             Console.WriteLine();
-            Console.Write("Ingrese Opcion: ");
-
-            return Convert.ToInt32(Console.ReadLine().Trim());
+            Console.Write("Ingrese una opción: ");
+            try { 
+            var opcion = Convert.ToInt32(Console.ReadLine().Trim());
+            return opcion;
+            }
+            catch
+            {
+               return 0;
+            }
         }
         // Método para procesar la opción seleccionada del menú
         public static void procesoMenu(Logica _log, int opcionMenu)
@@ -89,7 +95,10 @@ namespace POO_Consulta_Medica
                     Console.ReadLine();
                     break;
                 default:
-                    Console.WriteLine("Error - Opcion de Menu Inválida");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write($"\n-> ERROR - ");
+                    Console.ResetColor();
+                    Console.WriteLine("La opción ingresada en el menú no es correcta...");
                     Console.ReadLine();
                     break;
             }
@@ -105,7 +114,7 @@ namespace POO_Consulta_Medica
             try
             {
                 // Solicitar el número de cédula del paciente
-                Console.Write("Inserte número de cedula: ");
+                Console.Write("Ingrese número de cedula: ");
                 int _numerocedula = Convert.ToInt32(Console.ReadLine().Trim());
 
                 // Buscar al paciente por cédula
@@ -114,10 +123,17 @@ namespace POO_Consulta_Medica
                 // Si no se encuentra el paciente, se da de alta uno nuevo
                 if (unP == null)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write($"\n-> Paciente inexistente - ");
+                    Console.ResetColor();
+                    Console.Write("Complete los datos para dar de alta al paciente...\n");
                     AltaPaciente(_numerocedula, _log);
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write($"\nPaciente Encontrado - ");
+                    Console.ResetColor();
                     string _opcion = "0";
                     bool _bandera = false;
                     //Se crea una bandera para que corte el ciclo del while con su menu
@@ -127,6 +143,7 @@ namespace POO_Consulta_Medica
                         Console.WriteLine(" 1 - Modificar");
                         Console.WriteLine(" 2 - Eliminar");
                         Console.WriteLine(" 3 - Salir a Menu Principal");
+                        Console.Write("\nSeleccione una opción: ");
 
                         _opcion = Console.ReadLine().Trim();
                         switch (_opcion)
@@ -143,8 +160,7 @@ namespace POO_Consulta_Medica
                                 _bandera = true;
                                 break;
                             default:
-                                Console.Write("\nError - Opcion de Menu Invalida");
-                                Console.ReadLine();
+                                Console.Write("\nError - La opción ingresada no es correcta");
                                 break;
                         }
                     }
@@ -152,6 +168,9 @@ namespace POO_Consulta_Medica
             }
             catch (Exception ex)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write($"\n-> ERROR - ");
+                Console.ResetColor();
                 Console.WriteLine(ex.Message);
                 Console.ReadLine();
             }
@@ -161,11 +180,11 @@ namespace POO_Consulta_Medica
         public static void AltaPaciente(int _numerocedula, Logica _log)
         {
             string _nombrepaciente = "";
-            Console.Write("Ingrese el nombre del paciente: ");
-            _nombrepaciente = Console.ReadLine().Trim();
-
+            Console.Write("\nNombre y apellido del paciente: ");
+            _nombrepaciente = Convert.ToString(Console.ReadLine().Trim());
+            
             DateTime _fechanacimiento;
-            Console.Write("Ingrese la fecha de nacimineto dd/mm/aaaa: ");
+            Console.Write("\nFecha de nacimiento dd/mm/aaaa: ");
             _fechanacimiento = Convert.ToDateTime(Console.ReadLine());
 
             try
@@ -174,20 +193,27 @@ namespace POO_Consulta_Medica
                 Paciente unP = new Paciente(_nombrepaciente, _fechanacimiento, _numerocedula);
                 if (_log.AltaPaciente(unP))
                 {
-                    Console.WriteLine("ALta Correcta");
+                    Console.WriteLine("Alta Correcta");
                     Console.ReadLine();
                 }
                 else
                 {
-                    throw new Exception("Error - no se pudo crear el paciente");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write($"\n-> ERROR - ");
+                    Console.ResetColor();
+                    throw new Exception("No se creó el paciente. Revise los datos ingresados...");
                 }
             }
             catch (Exception ex)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write($"\n-> ERROR - ");
+                Console.ResetColor();
                 Console.WriteLine(ex.Message);
                 Console.ReadLine();
             }
         }
+       
         // Método para dar de alta una consulta común
         public static void AltaConsultaComun(Logica _log)
         {
@@ -208,16 +234,18 @@ namespace POO_Consulta_Medica
 
                 // Buscar las consultas ya registradas para verificar disponibilidad
                 List<Consulta> _lista = _log.ListaConsulta();
-
                 Console.Write($"\nConsultas para la fecha: {FSolicitada.Day}/{FSolicitada.Month}/{FSolicitada.Year} Consultorio: {CSolicitado}\n");
                 Console.Write($"Si existen horarios ocupados se mostrarán aquí\n");
 
                 //Mostrar horarios ocupados si hay coincidencias
+
                 if (_lista.Count != 0)
                 {
-                    foreach (Consulta C in _lista)
+
+                    List<Consulta> listaOrdenada = _log.OrdenarFechas(_lista);
+                    foreach (Consulta C in listaOrdenada)
                     {
-                        if (FSolicitada.Date == C.FechaHora.Date && CSolicitado == C.NumeroConsultorio)
+                            if (FSolicitada.Date == C.FechaHora.Date && CSolicitado == C.NumeroConsultorio)
                         {
                             Console.Write($"->  {C.FechaHora.Hour}:00   -  ");
                             Console.ForegroundColor = ConsoleColor.Red;
@@ -225,7 +253,6 @@ namespace POO_Consulta_Medica
                             Console.ResetColor();
                         }
                     }
-
                 }
                 //Solicitar el horario preferido
                 string _opcion = "0";
