@@ -143,7 +143,7 @@ namespace POO_Consulta_Medica
                                 _bandera = true;
                                 break;
                             default:
-                                Console.WriteLine("Error - Opcion de Menu Invalida");
+                                Console.Write("\nError - Opcion de Menu Invalida");
                                 Console.ReadLine();
                                 break;
                         }
@@ -228,47 +228,62 @@ namespace POO_Consulta_Medica
 
                 }
                 //Solicitar el horario preferido
-                Console.WriteLine($"\n\nIngrese el horario (1 al 9): \n 1 - 6:00 AM \n 2 - 8:00 AM \n 3 - 10:00 AM \n 4 - 12:00 PM \n 5 - 14:00 PM \n 6 - 16:00 PM \n 7 - 18:00 PM \n 8 - 20:00 PM \n 9 - 22:00 PM");
-                Console.Write("Horario preferido: ");
-                        string _opcion = "0";
-                        _opcion = Console.ReadLine().Trim();
-                        DateTime _FechayHora = FSolicitada;
+                string _opcion = "0";
+                DateTime _FechayHora = FSolicitada;
                 //Asignar la hora según la opción seleccionada
-                        switch (_opcion)
-                        {
-                            case "1":
+                bool _bandera = false;
+                while (!_bandera)
+                {
+                    Console.WriteLine($"\n\nIngrese el horario (1 al 9): \n 1 - 6:00 AM \n 2 - 8:00 AM \n 3 - 10:00 AM \n 4 - 12:00 PM \n 5 - 14:00 PM \n 6 - 16:00 PM \n 7 - 18:00 PM \n 8 - 20:00 PM \n 9 - 22:00 PM");
+                    Console.Write("Horario preferido: ");
+                    _opcion = Console.ReadLine().Trim();
+                    switch (_opcion)
+                    {
+                        case "1":
                             _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 6, 0, 0);
-                                break;
-                            case "2":
+                            _bandera = true;
+                            break;
+                        case "2":
                             _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 8, 0, 0);
+                            _bandera = true;
                             break;
-                            case "3":
+                        case "3":
                             _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 10, 0, 0);
+                            _bandera = true;
                             break;
-                            case "4":
+                        case "4":
                             _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 12, 0, 0);
+                            _bandera = true;
                             break;
-                            case "5":
+                        case "5":
                             _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 14, 0, 0);
+                            _bandera = true;
                             break;
-                            case "6":
+                        case "6":
                             _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 16, 0, 0);
+                            _bandera = true;
                             break;
-                            case "7":
+                        case "7":
                             _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 18, 0, 0);
+                            _bandera = true;
                             break;
-                            case "8":
+                        case "8":
                             _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 20, 0, 0);
+                            _bandera = true;
                             break;
-                            case "9":
+                        case "9":
                             _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 22, 0, 0);
+                            _bandera = true;
                             break;
 
                         default:
-                                Console.WriteLine("Error - Seleccione una opcion del 1 al 9");
-                                Console.ReadLine();
-                                break;
-                        }
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write("\n-> Error");
+                            Console.ResetColor();
+                            Console.Write(" - Seleccione una opcion del 1 al 9");
+                            break;
+                    }
+                }
                     // Dato de Numero de Consultorio
                     int _numeroconsultorio = CSolicitado;
                     DateTime _fechaconsulta = _FechayHora;
@@ -276,11 +291,11 @@ namespace POO_Consulta_Medica
                     Console.Write("Ingrese el nombre del medico: ");
                     string _nombremedico = Console.ReadLine().Trim();
                 
+                    // Cantida maxima de números
                     int _cantdidadnumero = 9;
 
+                    // Valor por defecto en false
                     bool _tieneenfermera = false;
-                    Console.Write("Tiene enfermera?: " + _tieneenfermera);
-                    Console.ReadLine();
                     
                     // Datos que se envían para validar previo a la carga de la consulta
                     Comun unaC = new Comun(_numeroconsulta, _numeroconsultorio, _fechaconsulta, _nombremedico, _cantdidadnumero, _tieneenfermera);
