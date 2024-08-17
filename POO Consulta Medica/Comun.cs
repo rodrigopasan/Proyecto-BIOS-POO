@@ -30,7 +30,7 @@ namespace POO_Consulta_Medica
 
         public override string ToString()
         {
-            return $"Comun {NumeroConsulta}, consultorio: {NumeroConsultorio}, fecha: {FechaHora}, Dr: {NombreMedico}, numero: {CantidadNumeros}, enfermera?: {_tipEnfermera}";
+            return $"Tipo: Comun            ID: {NumeroConsulta}     Consultorio:{NumeroConsultorio}     {FechaHora}     {NombreMedico}     Numero del día: {CantidadNumeros}     Enfermería:   {_tipEnfermera}";
         }
     }
 }

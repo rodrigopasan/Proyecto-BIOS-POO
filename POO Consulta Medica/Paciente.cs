@@ -11,6 +11,7 @@ namespace POO_Consulta_Medica
         private string _NombrePaciente;
         private DateTime _FechaNacimiento;
         private int _NumeroCedula;
+        private bool _TieneSolicitud;
         
 
         public string NombrePaciente
@@ -18,7 +19,7 @@ namespace POO_Consulta_Medica
             get { return _NombrePaciente; }
             set
             {
-                var listacaracteres = new string[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "@", "#", "$", "%", "/", "(", ")", "=", "?", "¿", "!", "¡", "|" };
+                var listacaracteres = new string[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "@", "#", "$", "%", "/", "(", ")", "=", "?", "¿", "!", "¡", "|" };
                 foreach (var c in listacaracteres)
                 {
                     value = value.Replace(c, string.Empty);
@@ -55,18 +56,23 @@ namespace POO_Consulta_Medica
                     throw new Exception("La cedula son 7 u 8 digitos");
             }
         }
-
+        public bool TieneSolicitud
+        {
+            get { return _TieneSolicitud; }
+            set { _TieneSolicitud = value; }
+        }
         //Constructor Completo
-        public Paciente(string pNombrePaciente, DateTime pFechaNacimiento, int pNumeroCedula)
+        public Paciente(string pNombrePaciente, DateTime pFechaNacimiento, int pNumeroCedula, bool pTieneSolicitud)
         {
             NombrePaciente = pNombrePaciente;
             FechaNacimiento = pFechaNacimiento;
             NumeroCedula = pNumeroCedula;
+            TieneSolicitud = pTieneSolicitud;
         }
 
         public override string ToString()
         {
-            return ($"Nombre: {_NombrePaciente}, Cedula: {_NumeroCedula}, Fecha Nacimiento {_FechaNacimiento}");
+            return ($"Nombre: {_NombrePaciente}, Cedula: {_NumeroCedula}, Fecha Nacimiento {_FechaNacimiento.Day}/{_FechaNacimiento.Month}/{_FechaNacimiento.Year}");
         }
     }
 }
