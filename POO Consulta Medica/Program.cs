@@ -28,28 +28,35 @@ namespace POO_Consulta_Medica
         {
             Console.Clear();
 
-            Console.WriteLine("---------------------------------------------------------");
-            Console.WriteLine("                Caso de Estudio Final");
-            Console.WriteLine("---------------------------------------------------------");
+            Console.WriteLine("--------------------------------------------------------");
+            Alertas("|*||*||*|   Sistema de Gestión - Policlínica   |*||*||*|", 0, "DarkCyan");
+            Console.WriteLine("--------------------------------------------------------");
 
-            Console.WriteLine("1 - Mantenimiento Pacientes");
-            Console.WriteLine("2 - Alta Consulta Común");
-            Console.WriteLine("3 - Alta Consulta Especialista");
-            Console.WriteLine("4 - Agregar Solicitud");
-            Console.WriteLine("5 - Marcar Asistenca Solicitud Número");
-            Console.WriteLine("6 - Listado Solicitudes de Consultas");
-            Console.WriteLine("7 - Listado Consulta");
-            Console.WriteLine("8 - Listado Solicitudes de Consulta Paciente");
-            Console.WriteLine("9 - Salir");
+            Console.WriteLine("1 - Gestionar Pacientes");
+            Console.WriteLine("2 - Registrar Consulta Común");
+            Console.WriteLine("3 - Registrar Consulta con Especialista");
+            Console.WriteLine("4 - Crear Nueva Solicitud");
+            Console.WriteLine("5 - Marcar Asistencia en Solicitud");
+            Console.WriteLine("6 - Ver Solicitudes por Número de Consulta");
+            Console.WriteLine("7 - Ver Consultas Registradas");
+            Console.WriteLine("8 - Buscar Solicitudes por Paciente");
+            Console.WriteLine("9 - Salir del Sistema");
 
         }
         // Método para capturar la opción seleccionada por el usuario
         public static int SeleccionoOpcionMenu()
         {
             Console.WriteLine();
-            Console.Write("Ingrese Opcion: ");
-
-            return Convert.ToInt32(Console.ReadLine().Trim());
+            Console.Write("Ingrese una opción: ");
+            try
+            {
+                var opcion = Convert.ToInt32(Console.ReadLine().Trim());
+                return opcion;
+            }
+            catch
+            {
+               return 0;
+            }
         }
         // Método para procesar la opción seleccionada del menú
         public static void procesoMenu(Logica _log, int opcionMenu)
@@ -89,7 +96,7 @@ namespace POO_Consulta_Medica
                     Console.ReadLine();
                     break;
                 default:
-                    Console.WriteLine("Error - Opcion de Menu Inválida");
+                    Alertas("La opción ingresada en el menú no es correcta...", 1,"");
                     Console.ReadLine();
                     break;
             }
@@ -98,14 +105,14 @@ namespace POO_Consulta_Medica
         public static void MantenimientoPaciente(Logica _log)
         {
             Console.Clear();
-            Console.WriteLine("---------------------------------------------------------");
-            Console.WriteLine("                Mantenimiento Paciente");
-            Console.WriteLine("---------------------------------------------------------\n\n");
+            Console.WriteLine("/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/");
+            Alertas("                Mantenimiento Paciente", 0, "Magenta");
+            Console.WriteLine("/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/\n\n");
 
             try
             {
                 // Solicitar el número de cédula del paciente
-                Console.Write("Inserte número de cedula: ");
+                Console.Write("Ingrese número de cedula: ");
                 int _numerocedula = Convert.ToInt32(Console.ReadLine().Trim());
 
                 // Buscar al paciente por cédula
@@ -114,10 +121,16 @@ namespace POO_Consulta_Medica
                 // Si no se encuentra el paciente, se da de alta uno nuevo
                 if (unP == null)
                 {
+                    Alertas("-> Paciente inexistente - ", 2, "Yellow");
+                    Console.Write("Complete los datos para dar de alta al paciente...\n");
                     AltaPaciente(_numerocedula, _log);
                 }
                 else
                 {
+                    Alertas("-> Paciente Encontrado\n", 0, "Green");
+
+                    Console.WriteLine(unP.ToString());
+
                     string _opcion = "0";
                     bool _bandera = false;
                     //Se crea una bandera para que corte el ciclo del while con su menu
@@ -127,7 +140,8 @@ namespace POO_Consulta_Medica
                         Console.WriteLine(" 1 - Modificar");
                         Console.WriteLine(" 2 - Eliminar");
                         Console.WriteLine(" 3 - Salir a Menu Principal");
-
+                        Console.Write("\nSeleccione una opción: ");
+                        
                         _opcion = Console.ReadLine().Trim();
                         switch (_opcion)
                         {
@@ -143,8 +157,7 @@ namespace POO_Consulta_Medica
                                 _bandera = true;
                                 break;
                             default:
-                                Console.WriteLine("Error - Opcion de Menu Invalida");
-                                Console.ReadLine();
+                                Alertas("La opción ingresada no es correcta", 1, "");
                                 break;
                         }
                     }
@@ -161,25 +174,27 @@ namespace POO_Consulta_Medica
         public static void AltaPaciente(int _numerocedula, Logica _log)
         {
             string _nombrepaciente = "";
-            Console.Write("Ingrese el nombre del paciente: ");
-            _nombrepaciente = Console.ReadLine().Trim();
+            Console.Write("\nNombre y apellido del paciente: ");
+            _nombrepaciente = Convert.ToString(Console.ReadLine().Trim());
 
             DateTime _fechanacimiento;
-            Console.Write("Ingrese la fecha de nacimineto dd/mm/aaaa: ");
+            Console.Write("\nFecha de nacimiento dd/mm/aaaa: ");
             _fechanacimiento = Convert.ToDateTime(Console.ReadLine());
+            bool _tienesolicitud = false;
 
             try
             {
                 // Crear una nueva entrada de Paciente y lo agrega
-                Paciente unP = new Paciente(_nombrepaciente, _fechanacimiento, _numerocedula);
+                Paciente unP = new Paciente(_nombrepaciente, _fechanacimiento, _numerocedula, _tienesolicitud);
                 if (_log.AltaPaciente(unP))
                 {
-                    Console.WriteLine("ALta Correcta");
+                    Console.WriteLine("Alta Correcta");
                     Console.ReadLine();
                 }
                 else
                 {
-                    throw new Exception("Error - no se pudo crear el paciente");
+                    Alertas("\n-> ERROR - ", 0, "Red");
+                    throw new Exception("No se creó el paciente. Revise los datos ingresados...");
                 }
             }
             catch (Exception ex)
@@ -188,114 +203,48 @@ namespace POO_Consulta_Medica
                 Console.ReadLine();
             }
         }
+       
         // Método para dar de alta una consulta común
         public static void AltaConsultaComun(Logica _log)
         {
             try
             {
                 Console.Clear();
-                Console.WriteLine("---------------------------------------------------------");
-                Console.WriteLine("               Agregar Consulta Comun");
-                Console.WriteLine("---------------------------------------------------------\n\n");
+                Console.WriteLine("/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/");
+                Alertas("               Registrar Consulta Común", 0, "Blue");
+                Console.WriteLine("/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/\n\n");
 
+                
 
-                int _numeroconsulta = 0;
-                Console.Write("Ingrese la fecha de su consulta (día/mes/año): ");
-                DateTime FSolicitada = Convert.ToDateTime(Console.ReadLine());
+                DateTime FSolicitada = SolicitarFechaConsulta();
 
-                Console.Write("Ingrese el número del consultorio (1 al 40): ");
-                int CSolicitado = Convert.ToInt32(Console.ReadLine().Trim());
+                int _numeroconsultorio = SolicitarNumeroConsultorio();
 
-                // Buscar las consultas ya registradas para verificar disponibilidad
                 List<Consulta> _lista = _log.ListaConsulta();
 
-                Console.Write($"\nConsultas para la fecha: {FSolicitada.Day}/{FSolicitada.Month}/{FSolicitada.Year} Consultorio: {CSolicitado}\n");
-                Console.Write($"Si existen horarios ocupados se mostrarán aquí\n");
+                MostrarHorariosOcupados(FSolicitada, _numeroconsultorio, _lista, _log);
 
-                //Mostrar horarios ocupados si hay coincidencias
-                if (_lista.Count != 0)
-                {
-                    foreach (Consulta C in _lista)
-                    {
-                        if (FSolicitada.Date == C.FechaHora.Date && CSolicitado == C.NumeroConsultorio)
-                        {
-                            Console.Write($"->  {C.FechaHora.Hour}:00   -  ");
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.Write($"OCUPADO \n");
-                            Console.ResetColor();
-                        }
-                    }
+                DateTime _fechaconsulta = SolicitarHorarioPreferido(FSolicitada);
 
-                }
-                //Solicitar el horario preferido
-                Console.WriteLine($"\n\nIngrese el horario (1 al 9): \n 1 - 6:00 AM \n 2 - 8:00 AM \n 3 - 10:00 AM \n 4 - 12:00 PM \n 5 - 14:00 PM \n 6 - 16:00 PM \n 7 - 18:00 PM \n 8 - 20:00 PM \n 9 - 22:00 PM");
-                Console.Write("Horario preferido: ");
-                        string _opcion = "0";
-                        _opcion = Console.ReadLine().Trim();
-                        DateTime _FechayHora = FSolicitada;
-                //Asignar la hora según la opción seleccionada
-                        switch (_opcion)
-                        {
-                            case "1":
-                            _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 6, 0, 0);
-                                break;
-                            case "2":
-                            _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 8, 0, 0);
-                            break;
-                            case "3":
-                            _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 10, 0, 0);
-                            break;
-                            case "4":
-                            _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 12, 0, 0);
-                            break;
-                            case "5":
-                            _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 14, 0, 0);
-                            break;
-                            case "6":
-                            _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 16, 0, 0);
-                            break;
-                            case "7":
-                            _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 18, 0, 0);
-                            break;
-                            case "8":
-                            _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 20, 0, 0);
-                            break;
-                            case "9":
-                            _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 22, 0, 0);
-                            break;
+                string _nombremedico = SolicitarNombreMedico();
 
-                        default:
-                                Console.WriteLine("Error - Seleccione una opcion del 1 al 9");
-                                Console.ReadLine();
-                                break;
-                        }
-                    // Dato de Numero de Consultorio
-                    int _numeroconsultorio = CSolicitado;
-                    DateTime _fechaconsulta = _FechayHora;
+                bool _tieneenfermera = SolicitarEnfermeria();
 
-                    Console.Write("Ingrese el nombre del medico: ");
-                    string _nombremedico = Console.ReadLine().Trim();
-                
-                    int _cantdidadnumero = 9;
+                int _cantidadnumeros = SolicitarMaxNumeros();
 
-                    bool _tieneenfermera = false;
-                    Console.Write("Tiene enfermera?: " + _tieneenfermera);
-                    Console.ReadLine();
-                    
-                    // Datos que se envían para validar previo a la carga de la consulta
-                    Comun unaC = new Comun(_numeroconsulta, _numeroconsultorio, _fechaconsulta, _nombremedico, _cantdidadnumero, _tieneenfermera);
 
-                    //inserto consuta comun nueva
-                    if (_log.AltaConsultaComun(unaC))
+                Comun unaC = new Comun(0, _numeroconsultorio, _fechaconsulta, _nombremedico, _cantidadnumeros, _tieneenfermera);
+                if (_log.AltaConsultaComun(unaC))
                     {
                         Console.WriteLine("Alta Correcta");
                         Console.ReadLine();
                     }
                     else
                     {
-                        throw new Exception("Error - En Alta Consulta Comun");
+                        Alertas("\n-> ERROR - ", 0, "Red");
+                        throw new Exception("En Alta Consulta Comun");
                     }
-                }
+              }
             
             catch (Exception eX)
             {
@@ -309,102 +258,37 @@ namespace POO_Consulta_Medica
             try
             {
                 Console.Clear();
-                Console.WriteLine("---------------------------------------------------------");
-                Console.WriteLine("               Agregar Consulta Especialista");
-                Console.WriteLine("---------------------------------------------------------\n\n");
+                Console.WriteLine("/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/");
+                Alertas("               Registrar Consulta con Especialista", 0, "Yellow");
+                Console.WriteLine("/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/\n\n");
 
+                DateTime FSolicitada = SolicitarFechaConsulta();
 
-                int _numeroconsulta = 0;
-                Console.Write("Ingrese la fecha de su consulta (día/mes/año): ");
-                DateTime FSolicitada = Convert.ToDateTime(Console.ReadLine());
+                int _numeroconsultorio = SolicitarNumeroConsultorio();
 
-                Console.Write("Ingrese el número del consultorio (1 al 40): ");
-                int CSolicitado = Convert.ToInt32(Console.ReadLine().Trim());
-
-                // Buscar las consultas ya registradas para verificar disponibilidad
                 List<Consulta> _lista = _log.ListaConsulta();
 
-                Console.Write($"\nConsultas para la fecha: {FSolicitada.Day}/{FSolicitada.Month}/{FSolicitada.Year} Consultorio: {CSolicitado}\n");
-                Console.Write($"Si existen horarios ocupados se mostrarán aquí\n");
+                MostrarHorariosOcupados(FSolicitada, _numeroconsultorio, _lista, _log);
 
-                //Mostrar horarios ocupados si hay coincidencias
-                if (_lista.Count != 0)
-                {
-                    foreach (Consulta C in _lista)
-                    {
-                        if (FSolicitada.Date == C.FechaHora.Date && CSolicitado == C.NumeroConsultorio)
-                        {
-                            Console.Write($"->  {C.FechaHora.Hour}:00   -  ");
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.Write($"OCUPADO \n");
-                            Console.ResetColor();
-                        }
-                    }
+                DateTime _fechaconsulta = SolicitarHorarioPreferido(FSolicitada);
 
-                }
-                //Solicitar el horario preferido
-                Console.WriteLine($"\n\nIngrese el horario (1 al 9): \n 1 - 6:00 AM \n 2 - 8:00 AM \n 3 - 10:00 AM \n 4 - 12:00 PM \n 5 - 14:00 PM \n 6 - 16:00 PM \n 7 - 18:00 PM \n 8 - 20:00 PM \n 9 - 22:00 PM");
-                Console.Write("Horario preferido: ");
-                string _opcion = "0";
-                _opcion = Console.ReadLine().Trim();
-                DateTime _FechayHora = FSolicitada;
-                //Asignar la hora según la opción seleccionada
-                switch (_opcion)
-                {
-                    case "1":
-                        _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 6, 0, 0);
-                        break;
-                    case "2":
-                        _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 8, 0, 0);
-                        break;
-                    case "3":
-                        _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 10, 0, 0);
-                        break;
-                    case "4":
-                        _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 12, 0, 0);
-                        break;
-                    case "5":
-                        _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 14, 0, 0);
-                        break;
-                    case "6":
-                        _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 16, 0, 0);
-                        break;
-                    case "7":
-                        _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 18, 0, 0);
-                        break;
-                    case "8":
-                        _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 20, 0, 0);
-                        break;
-                    case "9":
-                        _FechayHora = new DateTime(FSolicitada.Year, FSolicitada.Month, FSolicitada.Day, 22, 0, 0);
-                        break;
+                string _nombremedico = SolicitarNombreMedico();
 
-                    default:
-                        Console.WriteLine("Error - Seleccione una opcion del 1 al 9");
-                        Console.ReadLine();
-                        break;
-                }
-                    // Dato de Numero de Consultorio
-                    int _numeroconsultorio = CSolicitado;
-                    DateTime _fechaconsulta = _FechayHora;
-                
-                    Console.Write("Ingrese el nombre del medico: ");
-                    string _nombremedico = Console.ReadLine().Trim();
+                string _especialidad = SolicitarEspecialidad();
 
-                    int _cantdidadnumero = 9;
-                    Console.Write("Ingrese la especialidad: ");
-                    string _especialidad = Console.ReadLine().Trim();
+                int _cantidadnumeros = SolicitarMaxNumeros();
 
-                    Especialista unaE = new Especialista(_numeroconsulta, _numeroconsultorio, _fechaconsulta, _nombremedico, _cantdidadnumero, _especialidad);
 
-                    if (_log.AltaConsultaEspecialista(unaE))
+                Especialista unaE = new Especialista(0, _numeroconsultorio, _fechaconsulta, _nombremedico, _cantidadnumeros, _especialidad);
+                if (_log.AltaConsultaEspecialista(unaE))
                     {
                         Console.WriteLine("Alta Correcta");
                         Console.ReadLine();
                     }
                     else
                     {
-                        throw new Exception("Error - En Alta Consulta Especialista");
+                        Alertas("\n-> ERROR - ", 0, "Red");
+                        throw new Exception("En Alta Consulta Especialista");
                     }   
             }
             catch (Exception eX)
@@ -413,15 +297,204 @@ namespace POO_Consulta_Medica
                 Console.ReadLine();
             }
         }
+        private static DateTime SolicitarFechaConsulta()
+        {
+            Console.Write("Ingrese la fecha de su consulta (día/mes/año): ");
+            return Convert.ToDateTime(Console.ReadLine());
+        }
+        private static int SolicitarNumeroConsultorio()
+        {
+            Console.Write("Ingrese el número del consultorio (1 al 40): ");
+            return Convert.ToInt32(Console.ReadLine().Trim());
+        }
+        private static void MostrarHorariosOcupados(DateTime FSolicitada, int CSolicitado, List<Consulta> _lista, Logica _log)
+        {
+            Alertas($"\nConsultas para la fecha: {FSolicitada.Day}/{FSolicitada.Month}/{FSolicitada.Year} Consultorio: {CSolicitado}", 0, "Green");
+            Console.WriteLine("Si existen horarios ocupados se mostrarán aquí:");
 
+            if (_lista.Count != 0)
+            {
+                List<Consulta> listaOrdenada = _log.OrdenarFechas(_lista);
+                foreach (Consulta C in listaOrdenada)
+                {
+                    if (FSolicitada.Date == C.FechaHora.Date && CSolicitado == C.NumeroConsultorio)
+                    {
+                        Console.Write($"->  {C.FechaHora.Hour}:00   -  ");
+                        Alertas("OCUPADO", 0, "Red");
+                    }
+                }
+            }
+        }
+        private static DateTime SolicitarHorarioPreferido(DateTime fecha)
+        {
+            string _opcion = "0";
+            DateTime _FechayHora = fecha;
+            bool _bandera = false;
+
+            while (!_bandera)
+            {
+                Console.WriteLine($"\n\nIngrese el horario (1 al 9): \n 1 - 6:00 AM \n 2 - 8:00 AM \n 3 - 10:00 AM \n 4 - 12:00 PM \n 5 - 14:00 PM \n 6 - 16:00 PM \n 7 - 18:00 PM \n 8 - 20:00 PM \n 9 - 22:00 PM");
+                Console.Write("Horario preferido: ");
+                _opcion = Console.ReadLine().Trim();
+
+                switch (_opcion)
+                {
+                    case "1":
+                        _FechayHora = new DateTime(fecha.Year, fecha.Month, fecha.Day, 6, 0, 0);
+                        _bandera = true;
+                        break;
+                    case "2":
+                        _FechayHora = new DateTime(fecha.Year, fecha.Month, fecha.Day, 8, 0, 0);
+                        _bandera = true;
+                        break;
+                    case "3":
+                        _FechayHora = new DateTime(fecha.Year, fecha.Month, fecha.Day, 10, 0, 0);
+                        _bandera = true;
+                        break;
+                    case "4":
+                        _FechayHora = new DateTime(fecha.Year, fecha.Month, fecha.Day, 12, 0, 0);
+                        _bandera = true;
+                        break;
+                    case "5":
+                        _FechayHora = new DateTime(fecha.Year, fecha.Month, fecha.Day, 14, 0, 0);
+                        _bandera = true;
+                        break;
+                    case "6":
+                        _FechayHora = new DateTime(fecha.Year, fecha.Month, fecha.Day, 16, 0, 0);
+                        _bandera = true;
+                        break;
+                    case "7":
+                        _FechayHora = new DateTime(fecha.Year, fecha.Month, fecha.Day, 18, 0, 0);
+                        _bandera = true;
+                        break;
+                    case "8":
+                        _FechayHora = new DateTime(fecha.Year, fecha.Month, fecha.Day, 20, 0, 0);
+                        _bandera = true;
+                        break;
+                    case "9":
+                        _FechayHora = new DateTime(fecha.Year, fecha.Month, fecha.Day, 22, 0, 0);
+                        _bandera = true;
+                        break;
+
+                    default:
+                        Alertas("Seleccione una opcion del 1 al 9", 1, "");
+                        break;
+                }
+             }
+            return _FechayHora;
+        }
+        private static string SolicitarEspecialidad()
+        {
+            string especialidad = "";
+            bool especialidadBandera = false;
+
+            while (!especialidadBandera)
+            {
+                Console.WriteLine("Ingrese el número de la especialidad: \n 1 - Cardiología \n 2 - Dermatología \n 3 - Gastroenterología \n 4 - Neurología \n 5 - Pediatría \n 6 - Oncología \n 7 - Ginecología \n 8 - Psiquiatría \n 9 - Oftalmología");
+                Console.Write("Especialidad: ");
+                string especialidadOpcion = Console.ReadLine().Trim();
+
+                switch (especialidadOpcion)
+                {
+                    case "1":
+                        especialidad = "Cardiología";
+                        especialidadBandera = true;
+                        break;
+                    case "2":
+                        especialidad = "Dermatología";
+                        especialidadBandera = true;
+                        break;
+                    case "3":
+                        especialidad = "Gastroenterología";
+                        especialidadBandera = true;
+                        break;
+                    case "4":
+                        especialidad = "Neurología";
+                        especialidadBandera = true;
+                        break;
+                    case "5":
+                        especialidad = "Pediatría";
+                        especialidadBandera = true;
+                        break;
+                    case "6":
+                        especialidad = "Oncología";
+                        especialidadBandera = true;
+                        break;
+                    case "7":
+                        especialidad = "Ginecología";
+                        especialidadBandera = true;
+                        break;
+                    case "8":
+                        especialidad = "Psiquiatría";
+                        especialidadBandera = true;
+                        break;
+                    case "9":
+                        especialidad = "Oftalmología";
+                        especialidadBandera = true;
+                        break;
+                    default:
+                        Alertas("Seleccione una opcion del 1 al 9", 1, "");
+                        break;
+                }
+            }
+
+            return especialidad;
+        }
+        private static string SolicitarNombreMedico()
+        {
+            Console.Write("Ingrese el nombre del médico: ");
+            string medico = Console.ReadLine().Trim();
+
+            if (medico == "")
+                {
+                    medico = "Médico de Guardia";
+                }
+
+            return medico;
+        }
+
+        private static bool SolicitarEnfermeria()
+        {
+            
+            bool enfermeria = false;
+            bool enfermeriaBandera = false;
+
+            while (!enfermeriaBandera)
+            {
+                Console.Write("¿Cuenta con enfermería? (S/N): ");
+                string respuesta = Console.ReadLine().Trim().ToUpper();
+                switch (respuesta)
+                {
+                    case "S":
+                        enfermeria = true;
+                        enfermeriaBandera = true;
+                        break;
+                    case "N":
+                        enfermeria = false;
+                        enfermeriaBandera = true;
+                        break;
+
+                    default:
+                        Alertas("Respuesta no válida\n", 1, "");
+                        break;
+                }
+             }
+
+            return enfermeria;
+        }
+        private static int SolicitarMaxNumeros()
+        {
+            Console.Write("Ingrese la cantidad de números habilitados: ");
+            return Convert.ToInt32(Console.ReadLine());
+        }
         public static void AltaSolicitud(Logica _log)
         {
             try
             {
                 Console.Clear();
-                Console.WriteLine("---------------------------------------------------------");
-                Console.WriteLine("               Agregar Solicitud");
-                Console.WriteLine("---------------------------------------------------------\n\n");
+                Console.WriteLine("/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/");
+                Alertas("               Crear Nueva Solicitud", 0, "DarkMagenta");
+                Console.WriteLine("/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/\n\n");
 
                 //numero de cedula
                 Console.Write("Ingrese el número de cédula del paciente: ");
@@ -432,56 +505,63 @@ namespace POO_Consulta_Medica
 
                 if (unP == null)
                 {
-                    Console.WriteLine("El paciente no existe");
+                    Alertas("\n-> Paciente inexistente", 0, "Yellow");
+                    Console.Write($"Precione enter para volver al menú...");
                     Console.ReadLine();
                     return;
                 }
                 else
                 {
+                    Alertas("\n-> Paciente Encontrado", 0, "Green");
                     Console.WriteLine(unP.ToString());
                 }
-                Console.ReadLine();
 
-
-                Console.Write("Ingrese numero de consulta: ");
+                Console.Write("\nIngrese número de consulta (ID): ");
                 int numconsulta = Convert.ToInt32(Console.ReadLine());
                 Consulta unaC = _log.BuscarConsulta(numconsulta);
                 if (unaC == null)
                 {
-                    Console.WriteLine("No hay numero de consultorio no existe");
+                    Alertas("\n-> Número de consulta ID inexistente", 0, "Yellow");
+                    Console.Write("\nPuede encontrar los ID de consultas desde el menú...");
                     Console.ReadLine();
                      return;  //me voy del listar
                 }
                 else
                 {
+                    Alertas("\n-> Consulta Encontrada", 0, "Green");
                     Console.WriteLine(unaC.ToString());
+                    Console.Write("\nSeleccione una opción:\n1 - Confirmar \n2 - Salir");
+                    Console.Write("\nOpción: ");
+                    string _continuar = Console.ReadLine().Trim();
+                    switch (_continuar)
+                    {
+                        case "1":
+                            break;
+                        case "2":
+                            return;
+                        default:
+                            Alertas("\n-> ERROR ", 0, "Red");
+                            Console.WriteLine("Opción inválida, presione enter para salir...");
+                            Console.ReadLine();
+                            return;
+                    }
                 }
-                Console.ReadLine();
             
-                int _numerointerno = 0;
+                //bool _asistencia = false;
 
-
-                DateTime _fechasolicitud = DateTime.Today;
-                Console.Write("La fecha del dia es: " + _fechasolicitud);
-                Console.ReadLine();
-
-                bool _asistencia = false;
-                Console.Write("Concurrio?: " + _asistencia);
-                Console.ReadLine();
-
-                Solicitud UnaS = new Solicitud(_numerointerno, _fechasolicitud, _asistencia, unP, unaC);
+                Solicitud UnaS = new Solicitud(0, DateTime.Now, false, 0, unP, unaC);
                 if (_log.AgregarSolicitud(UnaS))
                 {
+                    ModificarAsocPacienteSolicitud(unP, _log);
                     Console.WriteLine("Alta Correcta");
                     Console.ReadLine();
                 }
                 else
                 {
-                    throw new Exception("Error - En Alta Consulta Especialista");
+                    Alertas("\n-> Error", 0, "Red");
+                    throw new Exception(" - No se realizó el alta de la solicitud - Revise los datos ingresados...");
                 }
-
-
-                //si no encuentra la cedula lo crea
+                
             }
             catch (Exception ex)
             {
@@ -489,7 +569,28 @@ namespace POO_Consulta_Medica
                 Console.ReadLine();
             }
         }
-
+        public static void ModificarAsocPacienteSolicitud(Paciente unP, Logica _log)
+        {
+            try
+            {
+                unP.TieneSolicitud = true;
+                if (unP.TieneSolicitud == true)
+                {
+                    return;
+                }
+                else
+                {
+                    unP.TieneSolicitud = false;
+                    Alertas("\n-> Error", 0, "Red");
+                    throw new Exception("Error al intentar marcar al paciente como inmutable");
+                }
+            }
+            catch (Exception eX)
+            {
+                Console.WriteLine(eX.Message);
+                Console.ReadLine();
+            }
+        }
         public static void ModificarPaciente(Paciente unP, Logica _log)
         {
             int _cedulapaciente;
@@ -514,7 +615,8 @@ namespace POO_Consulta_Medica
                 }
                 else
                 {
-                    throw new Exception("Error - En Modificacion - Inmobiliaria");
+                    Alertas("\n-> Error", 0, "Red");
+                    throw new Exception("Error al momento de modificar al paciente");
                 }
             }
             catch (Exception eX)
@@ -527,14 +629,22 @@ namespace POO_Consulta_Medica
         {
             try
             {
-                if (_log.EliminarPaciente(unP))
-                {
-                    Console.WriteLine("Eliminacion Correcta");
-                    Console.ReadLine();
+                if (unP.TieneSolicitud == false)
+                { 
+                    if (_log.EliminarPaciente(unP))
+                    {
+                        Console.WriteLine("Eliminacion Correcta");
+                        Console.ReadLine();
+                    }
+                    else
+                    {
+                        throw new Exception("Error al momento de eliminar el paciente");
+                    }
                 }
                 else
                 {
-                    throw new Exception("Error - En Eliminar - Inmobiliaria");
+                    Alertas("\n-> Error", 0, "Red");
+                    throw new Exception("- No se puede borrar pacientes con solicitudes asociadas. Intente con otro paciente...");
                 }
             }
             catch (Exception ex)
@@ -547,25 +657,26 @@ namespace POO_Consulta_Medica
         public static void ListadoConsulta(Logica _log)
         {
             Console.Clear();
-            Console.WriteLine("---------------------------------------------------------");
-            Console.WriteLine("               Listado de Consultas");
-            Console.WriteLine("---------------------------------------------------------\n\n");
+            Console.WriteLine("/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/");
+            Alertas("               Ver Consultas Registradas", 0, "Green");
+            Console.WriteLine("/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/\n\n");
 
             //busco la informacion
             List<Consulta> _lista = _log.ListaConsulta();
-
+            List<Consulta> listaOrdenada = _log.OrdenarFechas(_lista);
             if (_lista.Count == 0)
             {
-                Console.WriteLine("No hay consultas medicas para listar - Para listar Agregue alguna");
+                Alertas("No hay consultas medicas para listar - Para listar Agregue alguna", 2, "");
                 Console.ReadLine();
                 return;
             }
-
-            foreach (Consulta C in _lista)
+                        
+            foreach (Consulta C in listaOrdenada)
             {
+                Console.Write("->  ");
                 Console.WriteLine(C.ToString());
             }
-
+            Console.WriteLine("\n---------------------------------------------------------\nPrecione enter para volver al menú...");
             Console.ReadLine();
         }
 
@@ -574,22 +685,29 @@ namespace POO_Consulta_Medica
             try
             {
                 Console.Clear();
-                Console.WriteLine("---------------------------------------------------------");
-                Console.WriteLine("               Listado Solicitudes de Consultas");
-                Console.WriteLine("---------------------------------------------------------");
-                //pedir numero de consultorio
+                Console.WriteLine("/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/");
+                Alertas("               Ver Solicitudes por Número de Consulta", 0, "Cyan");
+                Console.WriteLine("/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/");
 
-                Console.Write("Ingrese el numero de consulta: ");
+                Console.Write("Ingrese el número de consulta (ID): ");
                 int numconsulta = Convert.ToInt32(Console.ReadLine());
-                Solicitud unaS = _log.BusSolCons(numconsulta);
-                if (unaS == null)
+
+                List<Solicitud> _listaS = _log.BuscarSolicitudesPorConsulta(numconsulta);
+                if (_listaS == null || _listaS.Count == 0)
                 {
-                    Console.WriteLine("No hay numero de consultorio en esta solicitud - No se sigue con el listado");
+                    Console.WriteLine("No hay solicitudes asociadas a esta consulta.");
                     Console.ReadLine();
-                    return;  //me voy del listar
+                    return;  // Salir del listado
                 }
-                int mostrar = _log.CantidadSolicitudes(unaS);
-                Console.WriteLine("Hay " + mostrar + " " + "cantidad de solicitudes: " + unaS.Paciente.NombrePaciente);
+                // Le paso [0] para tener la primera solicitud como ejemplo para buscar las otras.
+                int mostrar = _log.CantidadSolicitudes(_listaS[0]);
+                Alertas("-> Hay " + mostrar + " de " + _listaS[0].Consulta.CantidadNumeros + " " + "solicitud/es asociada/s a la consulta ID " + numconsulta, 0, "Green");
+                foreach (Solicitud L in _listaS)
+                {
+                    Console.Write($"\nIdentificador Solicitud: {L.NumeroInterno}\n\nPaciente: {L.Paciente.NombrePaciente}\n\nFecha Solicitud: {L.FechaSolicitud}\n\nFecha Consulta: {L.Consulta.FechaHora}\n\nPrioridad de atención (lugar): {L.Lugar}\n----------------------------------------\n\n");
+                }
+
+                Console.WriteLine("\nPrecione enter para salir...");
                 Console.ReadLine();
             }
             catch (Exception ex)
@@ -603,12 +721,12 @@ namespace POO_Consulta_Medica
             try
             {
                 Console.Clear();
-                Console.WriteLine("---------------------------------------------------------");
-                Console.WriteLine("               Marcar Asistencia Solicitud Número");
-                Console.WriteLine("---------------------------------------------------------\n\n");
+                Console.WriteLine("/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/");
+                Alertas("               Marcar Asistencia en Solicitud", 0, "DarkBlue");
+                Console.WriteLine("/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/\n\n");
 
                 //  número de solicitud
-                Console.Write("Ingrese el número de solicitud: ");
+                Console.Write("Ingrese el número interno de solicitud: ");
                 int numeroSolicitud = Convert.ToInt32(Console.ReadLine().Trim());
 
                 // Buscar la solicitud
@@ -665,18 +783,18 @@ namespace POO_Consulta_Medica
         public static void ListadoSolicitudesConsultaPaciente(Logica _log)
         {
             Console.Clear();
-            Console.WriteLine("---------------------------------------------------------");
-            Console.WriteLine("               Listado de Solicitudes de Consulta Paciente");
-            Console.WriteLine("---------------------------------------------------------");
+            Console.WriteLine("/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/");
+            Alertas("               Buscar Solicitudes por Paciente", 0, "Gray");
+            Console.WriteLine("/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/");
 
             try
             {
                 // Número de cédula del paciente
                 Console.Write("Ingrese el número de cédula del paciente: ");
-               int _numerocedula = Convert.ToInt32(Console.ReadLine());
+                int _numerocedula;
                 if (!int.TryParse(Console.ReadLine().Trim(), out _numerocedula))
                 {
-                    Console.WriteLine("Número de cédula inválido.");
+                    Alertas("Número de cédula inválido...",2,"");
                     Console.ReadLine();
                     return;
                 }
@@ -685,47 +803,48 @@ namespace POO_Consulta_Medica
                 Paciente paciente = _log.BuscarPaciente(_numerocedula);
                 if (paciente == null)
                 {
-                    Console.WriteLine("No se encontró el paciente con la cédula proporcionada.");
+                    Alertas("No se encontró el paciente con la cédula proporcionada...", 2, "");
                     Console.ReadLine();
                     return;
                 }
 
                 // filtro de solicitudes
-                Console.WriteLine("Seleccione el tipo de solicitudes a mostrar:");
-                Console.WriteLine("1. Solicitudes asistidas");
-                Console.WriteLine("2. Solicitudes no asistidas");
-                Console.Write("Ingrese el número de opción: ");
+                Console.WriteLine("Seleccione el tipo de solicitudes a mostrar:\n\n");
+                Console.WriteLine(" 1. Solicitudes con Asistencia");
+                Console.WriteLine(" 2. Solicitudes sin Asistencia");
+                Console.Write("\nOpción: ");
                 string opcion = Console.ReadLine().Trim();
 
                 List<Solicitud> solicitudes = _log.ListadoSolicitudesPaciente(paciente);
                 if (solicitudes.Count == 0)
                 {
-                    Console.WriteLine("No hay solicitudes de consulta para el paciente.");
+                    Alertas("No hay solicitudes de consulta para el paciente...", 2, "");
                     Console.ReadLine();
                     return;
                 }
 
                 // según la opción elegida
                 List<Solicitud> solicitudesFiltradas;
+                Alertas("-> Se encontraron solicitudes\n", 0, "Green");
                 switch (opcion)
                 {
                     case "1":
                         solicitudesFiltradas = solicitudes.Where(s => s.Asistencia).ToList();
-                        Console.WriteLine("Solicitudes asistidas:");
+                        Console.WriteLine("Solicitudes con Asistencia:\n");
                         break;
                     case "2":
                         solicitudesFiltradas = solicitudes.Where(s => !s.Asistencia).ToList();
-                        Console.WriteLine("Solicitudes no asistidas:");
+                        Console.WriteLine("Solicitudes sin Asistencia:\n");
                         break;
                     default:
-                        Console.WriteLine("Opción no válida. No se mostrarán resultados.");
+                        Alertas("Opción no válida. No se mostrarán resultados...", 2, "");
                         Console.ReadLine();
                         return;
                 }
 
                 if (solicitudesFiltradas.Count == 0)
                 {
-                    Console.WriteLine("No hay solicitudes que coincidan con el criterio seleccionado.");
+                    Alertas("No hay solicitudes que coincidan con el criterio seleccionado...", 2, "");
                 }
                 else
                 {
@@ -734,16 +853,40 @@ namespace POO_Consulta_Medica
                         Console.WriteLine(solicitud.ToString());
                     }
                 }
-
+                Console.WriteLine("\n------------------------------------------------------\nPrecione enter para volver al menu");
                 Console.ReadLine();
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Se produjo un error: " + ex.Message);
+                Alertas("Se produjo un error: " + ex.Message, 1, "");
                 Console.ReadLine();
             }
         }
-
+        private static void Alertas(string texto, int alerta, string color)
+        {
+            if (alerta == 1)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write($"\n-> ERROR ");
+                Console.ResetColor();
+                Console.Write($"{texto}");
+            }
+            if (alerta == 2)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Write($"\n-> Advertencia - ");
+                Console.ResetColor();
+                Console.Write($"{texto}");
+            }
+            if (alerta == 0)
+            {
+                ConsoleColor cambiarColor = ConsoleColor.White;
+                cambiarColor = (ConsoleColor)Enum.Parse(typeof(ConsoleColor), color, true);
+                Console.ForegroundColor = cambiarColor;
+                Console.WriteLine($"{texto}");
+                Console.ResetColor();
+            }
+        }
 
 
     }

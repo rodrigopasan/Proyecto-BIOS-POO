@@ -11,8 +11,9 @@ namespace POO_Consulta_Medica
         private int _NumeroInterno;
         private static int _Contador = 0;
         private bool _Asistencia;
-        private DateTime _FechaSolicitud = DateTime.Today;
+        private DateTime _FechaSolicitud = DateTime.Now;
         private string tipAsistencia;
+        private int _Lugar;
         Paciente _Paciente;
         Consulta _Consulta;
 
@@ -20,6 +21,11 @@ namespace POO_Consulta_Medica
         public int NumeroInterno
         {
             get { return _NumeroInterno; }
+        }
+        public int Lugar
+        {
+            get { return _Lugar; }
+            set { _Lugar = value; }
         }
 
         public bool Asistencia
@@ -61,14 +67,14 @@ namespace POO_Consulta_Medica
         }
 
         //Cosntructor comun
-        public Solicitud(int _NumeroInterno, DateTime _FechaSolicitud, bool _Asistencia ,Paciente unP, Consulta unaC)
+        public Solicitud(int _NumeroInterno, DateTime _FechaSolicitud, bool _Asistencia, int _Lugar ,Paciente unP, Consulta unaC)
         {
 
-            this._FechaSolicitud = DateTime.Today;
+            this._FechaSolicitud = DateTime.Now;
             Asistencia = _Asistencia;
             Paciente = unP;
             Consulta = unaC;
-
+            Lugar = _Lugar;
             
             if (_Asistencia == false)
                 tipAsistencia = "No";
@@ -81,7 +87,7 @@ namespace POO_Consulta_Medica
 
         public override string ToString()
         {
-            return ($"Numero: {_NumeroInterno}, consultorio: {_Consulta.NumeroConsultorio}, fecha: {DateTime.Today}, concurrio: {tipAsistencia}, {_Paciente}");
+            return ($"Numero Interno De Solicitud: {_NumeroInterno}   Consultorio: {_Consulta.NumeroConsultorio}   Fecha: {_FechaSolicitud}   Concurrio: {tipAsistencia}   {_Paciente}");
         }
 
     }

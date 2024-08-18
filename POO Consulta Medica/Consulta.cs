@@ -71,7 +71,10 @@ namespace POO_Consulta_Medica
                 }
                 else
                 {
-                    throw new Exception("La cantidad de números debe ser mayor a cero");
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Write("\n-> Advertencia");
+                    Console.ResetColor();
+                    throw new Exception(" - La cantidad de numeros habilitados para cada consulta es de 1 a 10");
                 }
             }
         }
