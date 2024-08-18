@@ -127,19 +127,50 @@ namespace POO_Consulta_Medica
             foreach(Solicitud S in _listaSolicitud)
             {
                 if (S != null)
-                    if (S.Consulta.NumeroConsultorio == sNumeroInterno)
+                    if (S.NumeroInterno == sNumeroInterno)
                         return S;
+            }
+            return null;
+        }
+        public Solicitud LugarSolicitud(Solicitud unaSolicitud)
+        {
+            int cantidadsolicitudes = CantidadSolicitudes(unaSolicitud);
+            unaSolicitud.Lugar = cantidadsolicitudes + 1;
+            return null;
+        }
+        public Consulta ValidarSolicitud(Solicitud unaSolicitud, Consulta unaConsulta)
+        {
+            int cantidadsolicitudes = CantidadSolicitudes(unaSolicitud);
+            int maxnumconsulta = unaConsulta.CantidadNumeros;
+
+            if (cantidadsolicitudes >= maxnumconsulta)
+            {
+                return unaConsulta;
             }
             return null;
         }
         public bool AgregarSolicitud(Solicitud unaSolicitud)
         {
-            Solicitud _buscoSolicitud = BuscarSolicitud(unaSolicitud.NumeroInterno);
-            if (_buscoSolicitud != null)
-                throw new Exception("El numero de consultorio ya esta en uso");
+            Consulta solicitudConflictiva = ValidarSolicitud(unaSolicitud, unaSolicitud.Consulta);
+            if (solicitudConflictiva != null)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("\nERROR -> ");
+                Console.ResetColor();
+                throw new Exception($"Se supero el máximo de numeros habilitados ({unaSolicitud.Consulta.CantidadNumeros}) para la consulta: {unaSolicitud.Consulta.NumeroConsulta}");
+            }
             else
             {
-                _listaSolicitud.Add(unaSolicitud);
+                Solicitud obtenerlugarsolicitud = LugarSolicitud(unaSolicitud);
+                if (obtenerlugarsolicitud != null)
+                {
+                    throw new Exception("Error al modificar el lugar de la solicitud...");
+                }
+                else
+                {
+                    _listaSolicitud.Add(unaSolicitud);
+                }
+
             }
             return true;
         }
@@ -172,16 +203,25 @@ namespace POO_Consulta_Medica
             }
             return null;
         }
+        public List<Solicitud> BuscarSolicitudesPorConsulta(int numConsulta)
+        {
+            List<Solicitud> solicitudesEncontradas = new List<Solicitud>();
+
+            foreach (Solicitud S in _listaSolicitud)
+            {
+                if (S.Consulta.NumeroConsulta == numConsulta)
+                {
+                    solicitudesEncontradas.Add(S);
+                }
+            }
+
+            return solicitudesEncontradas;
+        }
 
         public int CantidadSolicitudes(Solicitud unaSolicitud)
         {
-            int contador = 0;
-            foreach (Solicitud Item in _listaSolicitud)
-            {
-                if (Item.Consulta.NumeroConsultorio == unaSolicitud.NumeroInterno)
-                    contador++;
-            }
-            return contador;
+            List<Solicitud> solicitudes = BuscarSolicitudesPorConsulta(unaSolicitud.Consulta.NumeroConsulta);
+            return solicitudes.Count;
         }
         public bool ActualizarSolicitud(Solicitud solicitudActualizada)
         {
