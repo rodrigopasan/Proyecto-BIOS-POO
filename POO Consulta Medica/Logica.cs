@@ -69,58 +69,57 @@ namespace POO_Consulta_Medica
         {
             foreach (Consulta C in _listaConsulta) //Va a recorrer las entradas de Consultas
             {
-                if (C.NumeroConsultorio == pNumeroConsulta)
+                if (C.NumeroConsulta == pNumeroConsulta)
                     return (C);
             }//fin foreach
             return null;
         }
+        public Consulta ValidarAlta(int pNumeroConsultorio, DateTime pFechaHora)
+        {
+            foreach (Consulta C in _listaConsulta)
+            {
+                if (C != null) //Para la primera vuelta que no va a tener datos
+                { 
+                    if (C.FechaHora == pFechaHora && C.NumeroConsultorio == pNumeroConsultorio)
+                    {
+                        return C; // Devuelve la consulta en conflicto
+                    }
+
+                }
+            }
+            return null; // No hay conflicto
+        }
 
         public bool AltaConsultaComun(Consulta unaConsulta)
         {
-            Consulta _buscoConsulta = BuscarConsulta(unaConsulta.NumeroConsulta);
-            if (_buscoConsulta != null)
-                if (unaConsulta.NumeroConsulta == _buscoConsulta.NumeroConsulta)
-                {
-                    // Se verifica que existan dos horas de diferencia para la fecha solicitada
-                    // Se utiliza la función DiferenciaHoras y se le pasa como parametro "_buscoConsultorio.FechaHora"
-                    int dif2horas = unaConsulta.DiferenciaHoras(_buscoConsulta.FechaHora);
-                    if (dif2horas >= 2 || dif2horas <= -2)
-                    {
-                        _listaConsulta.Add(unaConsulta);
-                        return true;
-                    }
-                    else
-                    {
-                        double sumarhoras = dif2horas; //La suma de horas se debe trabajar con double
-                        throw new Exception("\n" + "---> Error: Los registros de consultas deben estar distanciados por un mínimo de 2 horas" + "\n" + "\n" + "Consultorio Nº: " + unaConsulta.NumeroConsultorio + "\n" + "Fecha de registro en conflicto: " + _buscoConsulta.FechaHora + "\n" + "Fecha de registro solicitada: " + unaConsulta.FechaHora + "\n" + "\n" + "Fecha sugerida 1: " + _buscoConsulta.FechaHora.AddHours(-2) + "\n" + "Fecha sugerida 2: " + _buscoConsulta.FechaHora.AddHours(2) + "\n" + "\n" + "Recuerde que puede realizar una busqueda de las consultas desde el menú principal");
-                    }
-                }
-            _listaConsulta.Add(unaConsulta);
-            return true;
+            Consulta consultaConflictiva = ValidarAlta(unaConsulta.NumeroConsultorio, unaConsulta.FechaHora);
+            if (consultaConflictiva == null)
+            {
+                _listaConsulta.Add(unaConsulta);
+                return true;
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("\nERROR ->");
+                Console.ResetColor();
+                throw new Exception($"Existe una consulta con la fecha solicitada ({unaConsulta.FechaHora}) en el consultorio seleccionado ({unaConsulta.NumeroConsultorio})");
+                
+            }
         }
 
         public bool AltaConsultaEspecialista(Consulta unaConsultaEspecialista)
         {
-            Consulta _buscoConsulta = BuscarConsulta(unaConsultaEspecialista.NumeroConsulta);
-            if (_buscoConsulta != null)
-                if (unaConsultaEspecialista.NumeroConsulta == _buscoConsulta.NumeroConsulta)
-                {
-                    // Se verifica que existan dos horas de diferencia para la fecha solicitada
-                    // Se utiliza la función DiferenciaHoras y se le pasa como parametro "_buscoConsultorio.FechaHora"
-                    int dif2horas = unaConsultaEspecialista.DiferenciaHoras(_buscoConsulta.FechaHora);
-                    if (dif2horas >= 2 || dif2horas <= -2)
-                    {
-                        _listaConsulta.Add(unaConsultaEspecialista);
-                        return true;
-                    }
-                    else
-                    {
-                        double sumarhoras = dif2horas; //La suma de horas se debe trabajar con double
-                        throw new Exception("\n" + "---> Error: Los registros de consultas deben estar distanciados por un mínimo de 2 horas" + "\n" + "\n" + "Consultorio Nº: " + unaConsultaEspecialista.NumeroConsultorio + "\n" + "Fecha de registro en conflicto: " + _buscoConsulta.FechaHora + "\n" + "Fecha de registro solicitada: " + unaConsultaEspecialista.FechaHora + "\n" + "\n" + "Fecha sugerida 1: " + _buscoConsulta.FechaHora.AddHours(-2) + "\n" + "Fecha sugerida 2: " + _buscoConsulta.FechaHora.AddHours(2) + "\n" + "\n" + "Recuerde que puede realizar una busqueda de las consultas desde el menú principal");
-                    }
-                }
-            _listaConsulta.Add(unaConsultaEspecialista);
-            return true;
+            Consulta consultaConflictiva = ValidarAlta(unaConsultaEspecialista.NumeroConsultorio, unaConsultaEspecialista.FechaHora);
+            if (consultaConflictiva == null)
+            {
+                _listaConsulta.Add(unaConsultaEspecialista);
+                return true;
+            }
+            else
+            {
+                throw new Exception($"Existe una consulta con la fecha solicitada ({unaConsultaEspecialista.FechaHora}) en el consultorio seleccionado ({unaConsultaEspecialista.NumeroConsultorio})");
+            }
         }
 
         public Solicitud BuscarSolicitud(int sNumeroInterno)
@@ -128,19 +127,50 @@ namespace POO_Consulta_Medica
             foreach(Solicitud S in _listaSolicitud)
             {
                 if (S != null)
-                    if (S.Consulta.NumeroConsultorio == sNumeroInterno)
+                    if (S.NumeroInterno == sNumeroInterno)
                         return S;
+            }
+            return null;
+        }
+        public Solicitud LugarSolicitud(Solicitud unaSolicitud)
+        {
+            int cantidadsolicitudes = CantidadSolicitudes(unaSolicitud);
+            unaSolicitud.Lugar = cantidadsolicitudes + 1;
+            return null;
+        }
+        public Consulta ValidarSolicitud(Solicitud unaSolicitud, Consulta unaConsulta)
+        {
+            int cantidadsolicitudes = CantidadSolicitudes(unaSolicitud);
+            int maxnumconsulta = unaConsulta.CantidadNumeros;
+
+            if (cantidadsolicitudes >= maxnumconsulta)
+            {
+                return unaConsulta;
             }
             return null;
         }
         public bool AgregarSolicitud(Solicitud unaSolicitud)
         {
-            Solicitud _buscoSolicitud = BuscarSolicitud(unaSolicitud.NumeroInterno);
-            if (_buscoSolicitud != null)
-                throw new Exception("El numero de consultorio ya esta en uso");
+            Consulta solicitudConflictiva = ValidarSolicitud(unaSolicitud, unaSolicitud.Consulta);
+            if (solicitudConflictiva != null)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("\nERROR -> ");
+                Console.ResetColor();
+                throw new Exception($"Se supero el máximo de numeros habilitados ({unaSolicitud.Consulta.CantidadNumeros}) para la consulta: {unaSolicitud.Consulta.NumeroConsulta}");
+            }
             else
             {
-                _listaSolicitud.Add(unaSolicitud);
+                Solicitud obtenerlugarsolicitud = LugarSolicitud(unaSolicitud);
+                if (obtenerlugarsolicitud != null)
+                {
+                    throw new Exception("Error al modificar el lugar de la solicitud...");
+                }
+                else
+                {
+                    _listaSolicitud.Add(unaSolicitud);
+                }
+
             }
             return true;
         }
@@ -173,16 +203,25 @@ namespace POO_Consulta_Medica
             }
             return null;
         }
+        public List<Solicitud> BuscarSolicitudesPorConsulta(int numConsulta)
+        {
+            List<Solicitud> solicitudesEncontradas = new List<Solicitud>();
+
+            foreach (Solicitud S in _listaSolicitud)
+            {
+                if (S.Consulta.NumeroConsulta == numConsulta)
+                {
+                    solicitudesEncontradas.Add(S);
+                }
+            }
+
+            return solicitudesEncontradas;
+        }
 
         public int CantidadSolicitudes(Solicitud unaSolicitud)
         {
-            int contador = 0;
-            foreach (Solicitud Item in _listaSolicitud)
-            {
-                if (Item.Consulta.NumeroConsultorio == unaSolicitud.NumeroInterno)
-                    contador++;
-            }
-            return contador;
+            List<Solicitud> solicitudes = BuscarSolicitudesPorConsulta(unaSolicitud.Consulta.NumeroConsulta);
+            return solicitudes.Count;
         }
         public bool ActualizarSolicitud(Solicitud solicitudActualizada)
         {
@@ -211,7 +250,11 @@ namespace POO_Consulta_Medica
 
             return solicitudesPaciente;
         }
-
+              
+        public List<Consulta> OrdenarFechas(List<Consulta> listaConsultas)
+        {
+            return listaConsultas.OrderBy(c => c.FechaHora).ToList();
+        }
 
     }
 

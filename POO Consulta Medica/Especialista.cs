@@ -27,7 +27,7 @@ namespace POO_Consulta_Medica
 
         public override string ToString()
         {
-            return $"Especialista {NumeroConsulta}, consultorio: {NumeroConsultorio}, fecha: {FechaHora}, Dr {NombreMedico}, numero: {CantidadNumeros}, especialidad {Especialidad}";
+            return $"Tipo: Especialista     ID: {NumeroConsulta}     Consultorio:{NumeroConsultorio}     {FechaHora}     {NombreMedico}     Numero del día: {CantidadNumeros}     Especialista: {Especialidad}";
         }
     }
 }

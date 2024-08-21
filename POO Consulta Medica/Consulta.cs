@@ -65,13 +65,16 @@ namespace POO_Consulta_Medica
             get { return _CantidadNumeros; }
             set
             {
-                if (value > 0 && value < 10)
+                if (value > 0 && value <= 10)
                 {
                     _CantidadNumeros = value;
                 }
                 else
                 {
-                    throw new Exception("La cantidad de números debe ser mayor a cero");
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Write("\n-> Advertencia");
+                    Console.ResetColor();
+                    throw new Exception(" - La cantidad de numeros habilitados para cada consulta es de 1 a 10");
                 }
             }
         }
